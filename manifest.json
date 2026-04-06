@@ -1,0 +1,9 @@
+{
+  "name": "TINTO — Café de Especialidad",
+  "short_name": "TINTO",
+  "display": "standalone",
+  "background_color": "#2C1810",
+  "theme_color": "#2C1810",
+  "start_url": ".",
+  "icons": []
+}

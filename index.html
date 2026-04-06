@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TINTO — Colombia · Daniel Lasso</title>
+
+    <!-- Web App / Fullscreen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#2C1810" />
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- LANDSCAPE OVERLAY -->
+    <div class="landscape-overlay" id="landscapeOverlay">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#E8C07A"
+        stroke-width="1.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="4" y="2" width="16" height="20" rx="2" />
+        <line x1="12" y1="18" x2="12" y2="18.01" />
+      </svg>
+      <div class="lo-title">Girá tu pantalla</div>
+      <div class="lo-sub">Para una mejor experiencia usá modo horizontal</div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress" id="progress"></div>
+
+    <!-- NAV -->
+    <button class="nav-btn nav-prev hidden" id="btnPrev" aria-label="Anterior">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6" /></svg>
+    </button>
+    <button class="nav-btn nav-next" id="btnNext" aria-label="Siguiente">
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18" /></svg>
+    </button>
+
+    <!-- DECK -->
+    <div class="deck" id="deck">
+      <!-- SLIDE 1: MARCA -->
+      <div class="slide s1 active" data-index="0">
+        <div class="s1-bg"></div>
+        <div class="s1-rings" id="rings"></div>
+        <div class="s1-content">
+          <div class="s1-eyebrow">Café de Especialidad</div>
+          <div class="s1-logo" id="s1Logo">TINTO</div>
+          <div class="s1-divider"></div>
+          <div class="s1-tagline" id="s1Tagline">Perfiles de taza con carácter</div>
+          <div class="s1-spacer"></div>
+          <div class="s1-sub">Tocá o deslizá para explorar →</div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: ORIGEN -->
+      <div class="slide s2" data-index="1">
+        <div class="s2-label">Origen</div>
+        <div class="s2-heading">
+          <span id="s2Variedad">Colombia</span><br />
+          <em id="s2Origen">Fusagasugá</em>
+        </div>
+        <div class="s2-facts" id="s2Facts"></div>
+        <div class="s2-caficultor">
+          <div class="s2-caf-label">Caficultor</div>
+          <div class="s2-caf-name" id="s2Caficultor">Daniel Lasso</div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: NOTAS -->
+      <div class="slide s3" data-index="2">
+        <div class="s3-label">Perfil de Sabor</div>
+        <div class="s3-quote" id="s3Quote"></div>
+        <div class="s3-chips" id="s3Chips"></div>
+        <div class="s3-attr" id="s3Attr"></div>
+      </div>
+
+      <!-- SLIDE 4: PUNTUACIÓN -->
+      <div class="slide s4" data-index="3">
+        <div class="s4-left">
+          <div class="s4-score-label">Puntuación SCA</div>
+          <div class="s4-score-num" id="s4Score">85</div>
+          <div class="s4-score-unit">Specialty Coffee</div>
+          <div class="s4-divider"></div>
+          <div class="s4-bars" id="s4Bars"></div>
+        </div>
+        <div class="s4-right">
+          <canvas id="spiderCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: CONTACTO -->
+      <div class="slide s5" data-index="4">
+        <div class="s5-label">Contacto</div>
+        <div class="s5-name" id="s5Name">TINTO</div>
+        <div class="s5-qr-wrap" id="btnSaveContact">
+          <div class="s5-qr-border">
+            <div id="qrHolder"></div>
+          </div>
+          <div class="s5-tap-hint">
+            <svg viewBox="0 0 24 24">
+              <path d="M8 13V4.5a1.5 1.5 0 0 1 3 0V12" />
+              <path d="M11 12V3.5a1.5 1.5 0 0 1 3 0V12" />
+              <path d="M14 11.5V5a1.5 1.5 0 0 1 3 0v8.5" />
+              <path d="M5 14.5V11a1.5 1.5 0 0 1 3 0v3.5" />
+              <path d="M5 14.5C5 18.09 7.91 21 11.5 21H13a5 5 0 0 0 5-5V8" />
+            </svg>
+            Tocá para guardar contacto
+          </div>
+        </div>
+        <div class="s5-contacts" id="s5Contacts"></div>
+        <div class="s5-hint">O escaneá el QR desde otro dispositivo</div>
+      </div>
+    </div>
+
+    <!-- COUNTER -->
+    <div class="counter" id="counter">1 / 5</div>
+
+    <!-- Scripts (order matters: data → chart → app) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="data/brand.js"></script>
+    <script src="data/colombia-fusagasuga.js"></script>
+    <script src="js/spider.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "tinto",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TINTO — Perfiles de café de especialidad",
+  "scripts": {
+    "lint": "eslint js/ data/",
+    "lint:fix": "eslint js/ data/ --fix",
+    "format": "prettier --write \"**/*.{js,css,html,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,css,html,json,md}\""
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.0"
+  }
+}
