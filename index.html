@@ -9,7 +9,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#2C1810" />
+    <meta name="theme-color" content="#2B463C" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="manifest" href="manifest.json" />
 
     <!-- Fonts -->
@@ -29,7 +30,7 @@
       <svg
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#E8C07A"
+        stroke="#B1D182"
         stroke-width="1.2"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -106,33 +107,59 @@
 
       <!-- SLIDE 5: CONTACTO -->
       <div class="slide s5" data-index="4">
-        <div class="s5-label">Contacto</div>
-        <div class="s5-name" id="s5Name">TINTO</div>
-        <div class="s5-qr-wrap" id="btnSaveContact">
-          <div class="s5-qr-border">
-            <div id="qrHolder"></div>
+        <div class="s5-header">
+          <div class="s5-label">Contacto</div>
+          <div class="s5-name" id="s5Name">TINTO</div>
+        </div>
+        <div class="s5-body">
+          <div class="s5-qr-col">
+            <div class="s5-qr-wrap" id="btnSaveContact">
+              <div class="s5-qr-border">
+                <div id="qrHolder"></div>
+              </div>
+              <div class="s5-tap-hint">
+                <svg viewBox="0 0 24 24">
+                  <path d="M8 13V4.5a1.5 1.5 0 0 1 3 0V12" />
+                  <path d="M11 12V3.5a1.5 1.5 0 0 1 3 0V12" />
+                  <path d="M14 11.5V5a1.5 1.5 0 0 1 3 0v8.5" />
+                  <path d="M5 14.5V11a1.5 1.5 0 0 1 3 0v3.5" />
+                  <path d="M5 14.5C5 18.09 7.91 21 11.5 21H13a5 5 0 0 0 5-5V8" />
+                </svg>
+                Tocá para guardar contacto
+              </div>
+            </div>
+            <div class="s5-hint">O escaneá el QR desde otro dispositivo</div>
           </div>
-          <div class="s5-tap-hint">
-            <svg viewBox="0 0 24 24">
-              <path d="M8 13V4.5a1.5 1.5 0 0 1 3 0V12" />
-              <path d="M11 12V3.5a1.5 1.5 0 0 1 3 0V12" />
-              <path d="M14 11.5V5a1.5 1.5 0 0 1 3 0v8.5" />
-              <path d="M5 14.5V11a1.5 1.5 0 0 1 3 0v3.5" />
-              <path d="M5 14.5C5 18.09 7.91 21 11.5 21H13a5 5 0 0 0 5-5V8" />
-            </svg>
-            Tocá para guardar contacto
+          <div class="s5-divider-v"></div>
+          <div class="s5-info-col">
+            <div class="s5-info-group">
+              <div class="s5-info-group-title">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                Teléfonos
+              </div>
+              <div class="s5-contacts-phones" id="s5Phones"></div>
+            </div>
+            <div class="s5-info-group">
+              <div class="s5-info-group-title">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+                Email
+              </div>
+              <div class="s5-contact-value" id="s5Email"></div>
+            </div>
+            <div class="s5-info-group">
+              <div class="s5-info-group-title">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+                Instagram
+              </div>
+              <div class="s5-contact-value" id="s5Instagram"></div>
+            </div>
           </div>
         </div>
-        <div class="s5-contacts" id="s5Contacts"></div>
-        <div class="s5-hint">O escaneá el QR desde otro dispositivo</div>
       </div>
     </div>
 
-    <!-- COUNTER -->
-    <div class="counter" id="counter">1 / 5</div>
-
     <!-- Scripts (order matters: data → chart → app) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script src="data/brand.js"></script>
     <script src="data/colombia-fusagasuga.js"></script>
     <script src="js/spider.js"></script>

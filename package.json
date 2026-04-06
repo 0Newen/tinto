@@ -4,6 +4,7 @@
   "private": true,
   "description": "TINTO — Perfiles de café de especialidad",
   "scripts": {
+    "dev": "npx serve . -l 3000 --no-clipboard",
     "lint": "eslint js/ data/",
     "lint:fix": "eslint js/ data/ --fix",
     "format": "prettier --write \"**/*.{js,css,html,json,md}\"",
@@ -12,6 +13,7 @@
   "devDependencies": {
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "prettier": "^3.3.0"
+    "prettier": "^3.3.0",
+    "serve": "^14.2.0"
   }
 }

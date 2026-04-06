@@ -17,7 +17,7 @@
   document.getElementById('s2Origen').textContent = DATA.origen;
   document.getElementById('s2Caficultor').textContent = DATA.caficultor;
   document.getElementById('s3Quote').textContent = DATA.quote;
-  document.getElementById('s4Score').textContent = Number.parseFloat(DATA.scoreTotal.toFixed(2));
+  document.getElementById('s4Score').textContent = '0';
   document.getElementById('s5Name').textContent = DATA.marca;
   document.getElementById('s3Attr').textContent = DATA.variedad + ' \u00B7 ' + DATA.origen;
 
@@ -65,19 +65,39 @@
   });
 
   // Contact items (slide 5)
-  const contEl = document.getElementById('s5Contacts');
+  // Phones
+  const phonesEl = document.getElementById('s5Phones');
   [
-    { k: 'Email', v: DATA.contacto.email },
-    { k: 'Colombia', v: DATA.contacto.tel1 },
-    { k: 'Argentina', v: DATA.contacto.tel2 },
-    { k: 'Instagram', v: DATA.contacto.instagram },
-  ].forEach((c) => {
+    { label: 'Colombia', v: DATA.contacto.tel1 },
+    { label: 'Argentina', v: DATA.contacto.tel2 },
+  ].forEach((p) => {
     const div = document.createElement('div');
-    div.className = 's5-contact-item';
+    div.className = 's5-phone-row';
     div.innerHTML =
-      '<span class="s5-contact-k">' + c.k + '</span><span class="s5-contact-v">' + c.v + '</span>';
-    contEl.appendChild(div);
+      '<span class="s5-phone-label">' + p.label + '</span>' +
+      '<span class="s5-phone-num">' + p.v + '</span>';
+    phonesEl.appendChild(div);
   });
+
+  // Email (clickable)
+  const emailEl = document.getElementById('s5Email');
+  const emailLink = document.createElement('a');
+  emailLink.href = 'mailto:' + DATA.contacto.email;
+  emailLink.className = 's5-contact-link';
+  emailLink.textContent = DATA.contacto.email;
+  emailLink.target = '_blank';
+  emailLink.rel = 'noopener noreferrer';
+  emailEl.appendChild(emailLink);
+
+  // Instagram (clickable)
+  const igEl = document.getElementById('s5Instagram');
+  const igLink = document.createElement('a');
+  igLink.href = 'https://instagram.com/' + DATA.contacto.instagram.replace('@', '');
+  igLink.className = 's5-contact-link';
+  igLink.textContent = DATA.contacto.instagram;
+  igLink.target = '_blank';
+  igLink.rel = 'noopener noreferrer';
+  igEl.appendChild(igLink);
 
   // Decorative rings (slide 1)
   const ringsEl = document.getElementById('rings');
@@ -120,7 +140,6 @@
   function updateUI() {
     document.getElementById('btnPrev').classList.toggle('hidden', current === 0);
     document.getElementById('btnNext').classList.toggle('hidden', current === total - 1);
-    document.getElementById('counter').textContent = current + 1 + ' / ' + total;
     const segs = document.querySelectorAll('.prog-seg');
     for (let i = 0; i < segs.length; i++) {
       segs[i].classList.remove('done', 'active');
@@ -130,15 +149,45 @@
   }
 
   let spiderDrawn = false;
+  let scoreAnimated = false;
+
+  function animateCountUp(el, target, duration) {
+    el.classList.add('counting');
+    var start = 0;
+    var startTime = null;
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      var ease = 1 - Math.pow(1 - progress, 3);
+      var current = start + (target - start) * ease;
+      el.textContent = current.toFixed(current % 1 === 0 ? 0 : 1);
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = Number.parseFloat(target.toFixed(2));
+        el.classList.remove('counting');
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
   function onSlideEnter(idx) {
     if (idx === 3) {
-      // Animate score bars
-      setTimeout(() => {
-        const fills = document.querySelectorAll('.s4-bar-fill');
-        for (let i = 0; i < fills.length; i++) {
-          fills[i].style.transform = 'scaleX(' + fills[i].dataset.pct + ')';
-        }
-      }, 300);
+      // Animate score bars with stagger
+      var fills = document.querySelectorAll('.s4-bar-fill');
+      for (var i = 0; i < fills.length; i++) {
+        (function(fill, delay) {
+          setTimeout(function() {
+            fill.style.transform = 'scaleX(' + fill.dataset.pct + ')';
+          }, delay);
+        })(fills[i], 400 + i * 100);
+      }
+      // Count-up score number
+      if (!scoreAnimated) {
+        scoreAnimated = true;
+        var scoreEl = document.getElementById('s4Score');
+        animateCountUp(scoreEl, DATA.scoreTotal, 1800);
+      }
       // Draw spider once
       if (!spiderDrawn) {
         spiderDrawn = true;
@@ -208,45 +257,65 @@
   }
 
   // ── QR + vCard ───────────────────────────────────────────
+  const vcardName = DATA.marca + ' \u2014 ' + DATA.tagline;
+
   globalThis.addEventListener('load', () => {
     const c = DATA.contacto;
-    const vcard = [
+    // Simplified vCard for QR (compact, no photo, ASCII-safe)
+    const qrVcard = [
       'BEGIN:VCARD',
       'VERSION:3.0',
-      'FN:' + DATA.marca,
+      'N:;;;;',
+      'FN:TINTO - Tradicion y Especialidad',
+      'ORG:TINTO - Tradicion y Especialidad',
+      'X-ABShowAs:COMPANY',
       'EMAIL:' + c.email,
-      'TEL;TYPE=CELL:' + c.tel1,
-      'TEL;TYPE=CELL:' + c.tel2,
-      'URL:https://instagram.com/' + c.instagram.replace('@', ''),
+      'TEL:' + c.tel1,
+      'TEL:' + c.tel2,
       'END:VCARD',
     ].join('\n');
 
     try {
+      if (typeof QRCode === 'undefined') throw new Error('QRCode library not loaded');
       new QRCode(document.getElementById('qrHolder'), {
-        text: vcard,
+        text: qrVcard,
         width: 120,
         height: 120,
-        colorDark: '#F4EDE0',
-        colorLight: '#2C1810',
-        correctLevel: QRCode.CorrectLevel.M,
+        colorDark: '#F4F1E9',
+        colorLight: '#2B463C',
+        correctLevel: QRCode.CorrectLevel.L,
       });
+      // Remove tooltip that QRCode.js adds
+      var qrImg = document.querySelector('#qrHolder img');
+      if (qrImg) qrImg.removeAttribute('title');
     } catch (err) {
+      console.error('QR generation failed:', err);
       document.getElementById('qrHolder').innerHTML =
-        '<div style="width:120px;height:120px;display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(244,237,224,0.4);letter-spacing:0.1em;">QR</div>';
+        '<div style="width:120px;height:120px;display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(244,241,233,0.4);letter-spacing:0.1em;">QR</div>';
     }
 
-    // Save contact on QR tap
+    // Save contact on QR tap (includes photo)
     document.getElementById('btnSaveContact').addEventListener('click', () => {
       const ct = DATA.contacto;
-      const vcf = [
+
+      const photoUrl = DATA.contacto.foto || '';
+
+      const vcfLines = [
         'BEGIN:VCARD',
         'VERSION:3.0',
-        'FN:' + DATA.marca,
+        'N:;;;;',
+        'FN:' + vcardName,
+        'ORG:' + vcardName,
+        'X-ABShowAs:COMPANY',
         'EMAIL:' + ct.email,
         'TEL;TYPE=CELL:' + ct.tel1,
         'TEL;TYPE=CELL:' + ct.tel2,
-        'END:VCARD',
-      ].join('\r\n');
+        'URL:https://instagram.com/' + ct.instagram.replace('@', ''),
+      ];
+      if (photoUrl) vcfLines.push('PHOTO;VALUE=URI:' + photoUrl);
+      vcfLines.push('END:VCARD');
+
+      const vcf = vcfLines.join('\r\n');
       const blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');

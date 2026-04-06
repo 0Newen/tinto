@@ -2,8 +2,8 @@
   "name": "TINTO — Tradición y Especialidad",
   "short_name": "TINTO",
   "display": "standalone",
-  "background_color": "#2C1810",
-  "theme_color": "#2C1810",
+  "background_color": "#2B463C",
+  "theme_color": "#2B463C",
   "start_url": ".",
   "icons": []
 }

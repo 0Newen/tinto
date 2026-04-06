@@ -21,9 +21,11 @@ globalThis.drawSpiderChart = function drawSpiderChart(canvas) {
 
   function draw(prog) {
     ctx.clearRect(0, 0, SZ, SZ);
-    const ease = 1 - Math.pow(1 - prog, 3);
+    // Elastic ease-out for more satisfying reveal
+    const t = prog < 1 ? 1 - Math.pow(1 - prog, 4) : 1;
 
-    // Grid rings
+    // Grid rings with fade-in
+    const gridAlpha = Math.min(prog * 2, 1) * 0.2;
     [2, 4, 6, 8, 10].forEach((ring) => {
       ctx.beginPath();
       for (let i = 0; i < n; i++) {
@@ -34,18 +36,19 @@ globalThis.drawSpiderChart = function drawSpiderChart(canvas) {
           : ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
       }
       ctx.closePath();
-      ctx.strokeStyle = 'rgba(44,24,16,0.2)';
+      ctx.strokeStyle = 'rgba(43,70,60,' + gridAlpha + ')';
       ctx.lineWidth = 0.7;
       ctx.stroke();
     });
 
     // Spokes
+    const spokeAlpha = Math.min(prog * 2, 1) * 0.2;
     for (let i = 0; i < n; i++) {
       const a = off + i * step;
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.lineTo(cx + R * Math.cos(a), cy + R * Math.sin(a));
-      ctx.strokeStyle = 'rgba(44,24,16,0.2)';
+      ctx.strokeStyle = 'rgba(43,70,60,' + spokeAlpha + ')';
       ctx.lineWidth = 0.7;
       ctx.stroke();
     }
@@ -54,32 +57,40 @@ globalThis.drawSpiderChart = function drawSpiderChart(canvas) {
     ctx.beginPath();
     for (let i = 0; i < n; i++) {
       const a = off + i * step;
-      const r = (values[i] / 10) * R * ease;
+      const r = (values[i] / 10) * R * t;
       i === 0
         ? ctx.moveTo(cx + r * Math.cos(a), cy + r * Math.sin(a))
         : ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
     }
     ctx.closePath();
-    ctx.fillStyle = 'rgba(185,115,51,0.25)';
+    ctx.fillStyle = 'rgba(104,143,78,' + (0.25 * t) + ')';
     ctx.fill();
-    ctx.strokeStyle = '#B87333';
+    ctx.strokeStyle = '#688F4E';
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // Dots
+    // Dots with glow
     for (let i = 0; i < n; i++) {
       const a = off + i * step;
-      const r = (values[i] / 10) * R * ease;
+      const r = (values[i] / 10) * R * t;
+      const dx = cx + r * Math.cos(a);
+      const dy = cy + r * Math.sin(a);
+      // Glow
       ctx.beginPath();
-      ctx.arc(cx + r * Math.cos(a), cy + r * Math.sin(a), 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = '#E8C07A';
+      ctx.arc(dx, dy, 6, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(177,209,130,' + (0.25 * t) + ')';
+      ctx.fill();
+      // Dot
+      ctx.beginPath();
+      ctx.arc(dx, dy, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#B1D182';
       ctx.fill();
     }
 
     // Labels
     ctx.font = "400 10px 'Jost',sans-serif";
     ctx.textAlign = 'center';
-    ctx.fillStyle = 'rgba(44,24,16,0.85)';
+    ctx.fillStyle = 'rgba(43,70,60,0.85)';
     for (let i = 0; i < n; i++) {
       const a = off + i * step;
       const lr = R + 20;
@@ -89,9 +100,9 @@ globalThis.drawSpiderChart = function drawSpiderChart(canvas) {
 
   let prog = 0;
   function tick() {
-    prog = Math.min(prog + 0.03, 1);
+    prog = Math.min(prog + 0.02, 1);
     draw(prog);
     if (prog < 1) requestAnimationFrame(tick);
   }
-  setTimeout(tick, 400);
+  setTimeout(tick, 300);
 };
