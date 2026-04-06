@@ -9,31 +9,29 @@
   const BRAND = globalThis.BRAND_DATA;
   const PROFILE = globalThis.PROFILE_DATA;
   const DATA = Object.assign({}, BRAND, PROFILE);
+  const t = globalThis.I18N.t;
 
   // ── Populate static DOM ──────────────────────────────────
   document.getElementById('s1Logo').textContent = DATA.marca;
-  document.getElementById('s1Tagline').textContent = DATA.tagline;
+  document.getElementById('s1Tagline').textContent = t('tagline');
   document.getElementById('s2Variedad').textContent = DATA.variedad;
   document.getElementById('s2Origen').textContent = DATA.origen;
   document.getElementById('s2Caficultor').textContent = DATA.caficultor;
-  document.getElementById('s3Quote').textContent = DATA.quote;
+  document.getElementById('s3Quote').textContent = t('quote');
   document.getElementById('s4Score').textContent = '0';
   document.getElementById('s5Name').textContent = DATA.marca;
   document.getElementById('s3Attr').textContent = DATA.variedad + ' \u00B7 ' + DATA.origen;
 
   // Facts (slide 2)
-  const factsData = [
-    { k: 'Región', v: DATA.region },
-    { k: 'Altura', v: DATA.altura },
-    { k: 'Beneficio', v: DATA.beneficio },
-    { k: 'Tueste', v: DATA.fechaTueste },
-  ];
+  const factKeys = ['factRegion', 'factAltitude', 'factProcess', 'factRoast'];
+  const factVals = [DATA.region, DATA.altura, DATA.beneficio, DATA.fechaTueste];
   const factsEl = document.getElementById('s2Facts');
-  factsData.forEach((f) => {
+  factKeys.forEach(function (key, i) {
     const d = document.createElement('div');
     d.className = 's2-fact';
     d.innerHTML =
-      '<span class="s2-fact-k">' + f.k + '</span><span class="s2-fact-v">' + f.v + '</span>';
+      '<span class="s2-fact-k" data-i18n="' + key + '">' + t(key) + '</span>' +
+      '<span class="s2-fact-v" data-i18n="' + factVals[i] + '">' + t(factVals[i]) + '</span>';
     factsEl.appendChild(d);
   });
 
@@ -42,7 +40,8 @@
   DATA.chips.forEach((c) => {
     const el = document.createElement('span');
     el.className = 's3-chip' + (c.primary ? ' primary' : '');
-    el.textContent = c.texto;
+    el.textContent = t(c.texto);
+    el.setAttribute('data-i18n', c.texto);
     chipsEl.appendChild(el);
   });
 
@@ -52,8 +51,8 @@
     const row = document.createElement('div');
     row.className = 's4-bar-row';
     row.innerHTML =
-      '<span class="s4-bar-lbl">' +
-      s.label +
+      '<span class="s4-bar-lbl" data-i18n="' + s.label + '">' +
+      t(s.label) +
       '</span>' +
       '<div class="s4-bar-track"><div class="s4-bar-fill" data-pct="' +
       s.pts / 10 +
@@ -68,13 +67,13 @@
   // Phones
   const phonesEl = document.getElementById('s5Phones');
   [
-    { label: 'Colombia', v: DATA.contacto.tel1 },
-    { label: 'Argentina', v: DATA.contacto.tel2 },
+    { label: 'phoneColombia', v: DATA.contacto.tel1 },
+    { label: 'phoneArgentina', v: DATA.contacto.tel2 },
   ].forEach((p) => {
     const div = document.createElement('div');
     div.className = 's5-phone-row';
     div.innerHTML =
-      '<span class="s5-phone-label">' + p.label + '</span>' +
+      '<span class="s5-phone-label" data-i18n="' + p.label + '">' + t(p.label) + '</span>' +
       '<span class="s5-phone-num">' + p.v + '</span>';
     phonesEl.appendChild(div);
   });
@@ -153,13 +152,13 @@
 
   function animateCountUp(el, target, duration) {
     el.classList.add('counting');
-    var start = 0;
-    var startTime = null;
+    const start = 0;
+    let startTime = null;
     function step(timestamp) {
       if (!startTime) startTime = timestamp;
-      var progress = Math.min((timestamp - startTime) / duration, 1);
-      var ease = 1 - Math.pow(1 - progress, 3);
-      var current = start + (target - start) * ease;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const current = start + (target - start) * ease;
       el.textContent = current.toFixed(current % 1 === 0 ? 0 : 1);
       if (progress < 1) {
         requestAnimationFrame(step);
@@ -174,8 +173,8 @@
   function onSlideEnter(idx) {
     if (idx === 3) {
       // Animate score bars with stagger
-      var fills = document.querySelectorAll('.s4-bar-fill');
-      for (var i = 0; i < fills.length; i++) {
+      const fills = document.querySelectorAll('.s4-bar-fill');
+      for (let i = 0; i < fills.length; i++) {
         (function(fill, delay) {
           setTimeout(function() {
             fill.style.transform = 'scaleX(' + fill.dataset.pct + ')';
@@ -185,7 +184,7 @@
       // Count-up score number
       if (!scoreAnimated) {
         scoreAnimated = true;
-        var scoreEl = document.getElementById('s4Score');
+        const scoreEl = document.getElementById('s4Score');
         animateCountUp(scoreEl, DATA.scoreTotal, 1800);
       }
       // Draw spider once
@@ -286,7 +285,7 @@
         correctLevel: QRCode.CorrectLevel.L,
       });
       // Remove tooltip that QRCode.js adds
-      var qrImg = document.querySelector('#qrHolder img');
+      const qrImg = document.querySelector('#qrHolder img');
       if (qrImg) qrImg.removeAttribute('title');
     } catch (err) {
       console.error('QR generation failed:', err);
@@ -326,5 +325,24 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     });
+  });
+
+  // ── Language toggle ──────────────────────────────────────
+  document.getElementById('langToggle').addEventListener('click', function () {
+    const lang = globalThis.I18N.getLang() === 'es' ? 'en' : 'es';
+    globalThis.I18N.setLang(lang);
+  });
+
+  // Re-render dynamic content on language change
+  globalThis.I18N.onLangChange(function () {
+    // Redraw spider chart with translated labels
+    spiderDrawn = false;
+    const canvas = document.getElementById('spiderCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (current === 3) {
+      spiderDrawn = true;
+      globalThis.drawSpiderChart(canvas);
+    }
   });
 })();

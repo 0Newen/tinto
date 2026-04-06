@@ -13,7 +13,7 @@ globalThis.drawSpiderChart = function drawSpiderChart(canvas) {
   const cx = SZ / 2;
   const cy = SZ / 2;
   const R = SZ * 0.36;
-  const labels = DATA.scores.map((s) => s.label);
+  const labels = DATA.scores.map((s) => globalThis.I18N.t(s.label));
   const values = DATA.scores.map((s) => s.pts);
   const n = labels.length;
   const step = (Math.PI * 2) / n;

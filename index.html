@@ -38,18 +38,24 @@
         <rect x="4" y="2" width="16" height="20" rx="2" />
         <line x1="12" y1="18" x2="12" y2="18.01" />
       </svg>
-      <div class="lo-title">Girá tu pantalla</div>
-      <div class="lo-sub">Para una mejor experiencia usá modo horizontal</div>
+      <div class="lo-title" data-i18n="rotateTitle">Girá tu pantalla</div>
+      <div class="lo-sub" data-i18n="rotateSub">Para una mejor experiencia usá modo horizontal</div>
     </div>
 
     <!-- PROGRESS -->
     <div class="progress" id="progress"></div>
 
     <!-- NAV -->
-    <button class="nav-btn nav-prev hidden" id="btnPrev" aria-label="Anterior">
+    <!-- LANG TOGGLE -->
+    <button class="lang-toggle" id="langToggle">
+      <span class="lang-opt active" data-lang="es">ES</span>
+      <span class="lang-opt" data-lang="en">EN</span>
+    </button>
+
+    <button class="nav-btn nav-prev hidden" id="btnPrev" aria-label="Anterior" data-i18n-aria="navPrev">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6" /></svg>
     </button>
-    <button class="nav-btn nav-next" id="btnNext" aria-label="Siguiente">
+    <button class="nav-btn nav-next" id="btnNext" aria-label="Siguiente" data-i18n-aria="navNext">
       <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18" /></svg>
     </button>
 
@@ -60,33 +66,33 @@
         <div class="s1-bg"></div>
         <div class="s1-rings" id="rings"></div>
         <div class="s1-content">
-          <div class="s1-eyebrow">Café de Especialidad</div>
+          <div class="s1-eyebrow" data-i18n="eyebrow">Café de Especialidad</div>
           <div class="s1-logo" id="s1Logo">TINTO</div>
           <div class="s1-divider"></div>
-          <div class="s1-tagline" id="s1Tagline">Perfiles de taza con carácter</div>
+          <div class=\"s1-tagline\" id=\"s1Tagline\" data-i18n=\"tagline\">Perfiles de taza con carácter</div>
           <div class="s1-spacer"></div>
-          <div class="s1-sub">Tocá o deslizá para explorar →</div>
+          <div class="s1-sub" data-i18n="explore">Tocá o deslizá para explorar →</div>
         </div>
       </div>
 
       <!-- SLIDE 2: ORIGEN -->
       <div class="slide s2" data-index="1">
-        <div class="s2-label">Origen</div>
+        <div class="s2-label" data-i18n="origin">Origen</div>
         <div class="s2-heading">
           <span id="s2Variedad">Colombia</span><br />
           <em id="s2Origen">Fusagasugá</em>
         </div>
         <div class="s2-facts" id="s2Facts"></div>
         <div class="s2-caficultor">
-          <div class="s2-caf-label">Caficultor</div>
+          <div class="s2-caf-label" data-i18n="farmerLabel">Caficultor</div>
           <div class="s2-caf-name" id="s2Caficultor">Daniel Lasso</div>
         </div>
       </div>
 
       <!-- SLIDE 3: NOTAS -->
       <div class="slide s3" data-index="2">
-        <div class="s3-label">Perfil de Sabor</div>
-        <div class="s3-quote" id="s3Quote"></div>
+        <div class="s3-label" data-i18n="flavorProfile">Perfil de Sabor</div>
+        <div class="s3-quote" id="s3Quote" data-i18n="quote"></div>
         <div class="s3-chips" id="s3Chips"></div>
         <div class="s3-attr" id="s3Attr"></div>
       </div>
@@ -94,9 +100,9 @@
       <!-- SLIDE 4: PUNTUACIÓN -->
       <div class="slide s4" data-index="3">
         <div class="s4-left">
-          <div class="s4-score-label">Puntuación SCA</div>
+          <div class="s4-score-label" data-i18n="scaScore">Puntuación SCA</div>
           <div class="s4-score-num" id="s4Score">85</div>
-          <div class="s4-score-unit">Specialty Coffee</div>
+          <div class="s4-score-unit" data-i18n="specialtyCoffee">Specialty Coffee</div>
           <div class="s4-divider"></div>
           <div class="s4-bars" id="s4Bars"></div>
         </div>
@@ -108,7 +114,7 @@
       <!-- SLIDE 5: CONTACTO -->
       <div class="slide s5" data-index="4">
         <div class="s5-header">
-          <div class="s5-label">Contacto</div>
+          <div class="s5-label" data-i18n="contact">Contacto</div>
           <div class="s5-name" id="s5Name">TINTO</div>
         </div>
         <div class="s5-body">
@@ -125,31 +131,31 @@
                   <path d="M5 14.5V11a1.5 1.5 0 0 1 3 0v3.5" />
                   <path d="M5 14.5C5 18.09 7.91 21 11.5 21H13a5 5 0 0 0 5-5V8" />
                 </svg>
-                Tocá para guardar contacto
+                <span data-i18n="tapToSave">Tocá para guardar contacto</span>
               </div>
             </div>
-            <div class="s5-hint">O escaneá el QR desde otro dispositivo</div>
+            <div class="s5-hint" data-i18n="scanQr">O escaneá el QR desde otro dispositivo</div>
           </div>
           <div class="s5-divider-v"></div>
           <div class="s5-info-col">
             <div class="s5-info-group">
               <div class="s5-info-group-title">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                Teléfonos
+                <span data-i18n="phones">Teléfonos</span>
               </div>
               <div class="s5-contacts-phones" id="s5Phones"></div>
             </div>
             <div class="s5-info-group">
               <div class="s5-info-group-title">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
-                Email
+                <span data-i18n="email">Email</span>
               </div>
               <div class="s5-contact-value" id="s5Email"></div>
             </div>
             <div class="s5-info-group">
               <div class="s5-info-group-title">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
-                Instagram
+                <span data-i18n="instagram">Instagram</span>
               </div>
               <div class="s5-contact-value" id="s5Instagram"></div>
             </div>
@@ -162,6 +168,7 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script src="data/brand.js"></script>
     <script src="data/colombia-fusagasuga.js"></script>
+    <script src="js/i18n.js"></script>
     <script src="js/spider.js"></script>
     <script src="js/app.js"></script>
   </body>
