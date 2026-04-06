@@ -70,6 +70,7 @@
     { k: 'Email', v: DATA.contacto.email },
     { k: 'Colombia', v: DATA.contacto.tel1 },
     { k: 'Argentina', v: DATA.contacto.tel2 },
+    { k: 'Instagram', v: DATA.contacto.instagram },
   ].forEach((c) => {
     const div = document.createElement('div');
     div.className = 's5-contact-item';
@@ -216,6 +217,7 @@
       'EMAIL:' + c.email,
       'TEL;TYPE=CELL:' + c.tel1,
       'TEL;TYPE=CELL:' + c.tel2,
+      'URL:https://instagram.com/' + c.instagram.replace('@', ''),
       'END:VCARD',
     ].join('\n');
 
