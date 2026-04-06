@@ -4,7 +4,7 @@
  */
 globalThis.BRAND_DATA = {
   marca: 'TINTO',
-  tagline: 'Perfiles de taza con carácter',
+  tagline: 'Tradición y Especialidad',
 
   contacto: {
     email: 'tintocafe25@gmail.com',
