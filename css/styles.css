@@ -231,51 +231,6 @@ body::after {
   50% { opacity: 0.5; transform: scale(1.03); }
 }
 
-/* ── iOS Install Banner ── */
-.ios-install-banner {
-  position: absolute;
-  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  background: rgba(177, 209, 130, 0.15);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(177, 209, 130, 0.25);
-  border-radius: 12px;
-  padding: 10px 18px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--cream);
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  line-height: 1.4;
-  max-width: 320px;
-  animation: fadeInUp 0.8s 2s both;
-  cursor: pointer;
-}
-.ios-install-banner svg {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  stroke: var(--gold);
-  fill: none;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.ios-install-banner .dismiss {
-  margin-left: auto;
-  opacity: 0.5;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0 4px;
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
 
 .s1-content {
   position: relative;
@@ -375,6 +330,26 @@ body::after {
 .s1-timeline-link:hover {
   opacity: 1;
   border-color: var(--gold);
+}
+
+.s1-contact-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-decoration: none;
+  border: 1px solid rgba(244, 241, 233, 0.2);
+  padding: 8px 20px;
+  font-weight: 300;
+  opacity: 0.6;
+  transition: opacity 0.3s, border-color 0.3s;
+  cursor: pointer;
+}
+.s1-contact-link:hover {
+  opacity: 1;
+  border-color: var(--cream);
 }
 
 /* ═══════════════════════════════════
@@ -849,6 +824,26 @@ body::after {
   color: rgba(244, 241, 233, 0.4);
   font-weight: 300;
   text-transform: uppercase;
+}
+
+.s5-back-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold2);
+  text-decoration: none;
+  border: 1px solid rgba(177, 209, 130, 0.25);
+  padding: 8px 20px;
+  font-weight: 300;
+  opacity: 0.6;
+  transition: opacity 0.3s, border-color 0.3s;
+  cursor: pointer;
+}
+.s5-back-link:hover {
+  opacity: 1;
+  border-color: var(--gold);
 }
 
 .s5-divider-v {

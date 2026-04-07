@@ -7,15 +7,21 @@ Presentación interactiva tipo story para perfiles de taza de café de especiali
 ```text
 tinto/
 ├── index.html              ← Template HTML (agnóstico al perfil)
+├── timeline.html           ← Historia / editorial scroll
 ├── manifest.json           ← PWA manifest
+├── favicon.svg             ← Ícono SVG
 ├── css/
-│   └── styles.css          ← Estilos globales
+│   ├── styles.css          ← Estilos globales (perfil)
+│   └── timeline.css        ← Estilos del timeline
 ├── js/
 │   ├── app.js              ← Navegación, DOM, eventos, QR, vCard
-│   └── spider.js           ← Gráfico radar (canvas, aislado)
+│   ├── spider.js           ← Gráfico radar (canvas, aislado)
+│   ├── i18n.js             ← Internacionalización ES/EN
+│   └── timeline.js         ← Scroll y animaciones del timeline
 ├── data/
 │   ├── brand.js            ← Marca y contacto (compartido, no cambia)
 │   └── colombia-fusagasuga.js  ← Perfil de taza (único por café)
+├── img/                    ← Imágenes del timeline
 └── README.md
 ```
 
@@ -54,8 +60,10 @@ tinto/
 ## Características
 
 - 5 slides: Marca → Origen → Notas de Sabor → Puntuación SCA → Contacto
+- Internacionalización ES/EN con toggle
 - Navegación: teclado (flechas), swipe, tap zones
 - Gráfico radar animado con puntajes SCA
 - QR con vCard descargable al tocar
 - Overlay para modo horizontal en mobile
 - Soporte fullscreen (PWA standalone)
+- Timeline editorial con scroll (Nuestra Historia)

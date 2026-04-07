@@ -24,6 +24,8 @@
       tagline: 'Tradici\u00F3n y Especialidad',
       explore: 'Toc\u00E1 o desliz\u00E1 para explorar \u2192',
       ourStory: 'Nuestra Historia \u2193',
+      goContact: 'Contacto \u2192',
+      backToStart: '\u2190 Volver al inicio',
 
       // Slide 2
       origin: 'Origen',
@@ -49,9 +51,6 @@
       instagram: 'Instagram',
       phoneColombia: 'Colombia',
       phoneArgentina: 'Argentina',
-
-      // iOS install hint
-      iosInstallHint: 'Para pantalla completa: Compartir \u2192 Agregar a inicio',
 
       // SCA score labels (keyed by original Spanish)
       'Aroma': 'Aroma',
@@ -89,7 +88,7 @@
 
       // Landscape overlay
       rotateTitle: 'Rotate your screen',
-      rotateSub: 'For a better experience use landscape mode',
+      rotateSub: 'For a better experience, use landscape mode',
 
       // Nav
       navPrev: 'Previous',
@@ -100,6 +99,8 @@
       tagline: 'Tradition & Specialty',
       explore: 'Tap or swipe to explore \u2192',
       ourStory: 'Our Story \u2193',
+      goContact: 'Contact \u2192',
+      backToStart: '\u2190 Back to start',
 
       // Slide 2
       origin: 'Origin',
@@ -125,9 +126,6 @@
       instagram: 'Instagram',
       phoneColombia: 'Colombia',
       phoneArgentina: 'Argentina',
-
-      // iOS install hint
-      iosInstallHint: 'For fullscreen: Share \u2192 Add to Home Screen',
 
       // SCA score labels
       'Aroma': 'Aroma',

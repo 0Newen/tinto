@@ -30,7 +30,7 @@ body {
   width: 100%;
   min-height: 100vh;
   background: var(--cream);
-  font-family: 'Jost', sans-serif;
+  font-family: 'Anonymous Pro', monospace;
   color: var(--ink);
   cursor: default;
   overflow-x: hidden;
@@ -131,9 +131,9 @@ body::after {
 }
 
 .tl-hero-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: clamp(42px, 8vw, 88px);
-  font-weight: 300;
+  font-weight: 700;
   color: var(--cream);
   line-height: 1.08;
   letter-spacing: 0.02em;
@@ -141,8 +141,8 @@ body::after {
 }
 
 .tl-hero-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
+  font-family: 'Anonymous Pro', monospace;
+  font-style: normal;
   font-size: clamp(15px, 2.2vw, 20px);
   color: var(--gold2);
   line-height: 1.6;
@@ -207,9 +207,9 @@ body::after {
 
 .tl-chapter-num {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: clamp(56px, 8vw, 100px);
-  font-weight: 300;
+  font-weight: 700;
   color: var(--cream3);
   line-height: 1;
   margin-bottom: 16px;
@@ -226,14 +226,14 @@ body::after {
 }
 
 .tl-chapter-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: clamp(28px, 3.5vw, 48px);
-  font-weight: 300;
+  font-weight: 700;
   color: var(--espresso);
   line-height: 1.1;
 }
 .tl-chapter-title em {
-  font-style: italic;
+  font-style: normal;
   color: var(--brown);
 }
 
@@ -285,8 +285,8 @@ body::after {
 }
 
 .tl-closing-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
+  font-family: 'Anonymous Pro', monospace;
+  font-style: normal;
   font-size: clamp(17px, 2.5vw, 22px);
   color: var(--gold2);
   line-height: 1.65;
@@ -296,9 +296,9 @@ body::after {
 }
 
 .tl-closing-brand {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: clamp(48px, 8vw, 72px);
-  font-weight: 300;
+  font-weight: 700;
   color: var(--cream);
   letter-spacing: 0.18em;
   line-height: 1;
@@ -306,8 +306,8 @@ body::after {
 }
 
 .tl-closing-tagline {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
+  font-family: 'Anonymous Pro', monospace;
+  font-style: normal;
   font-size: 16px;
   color: var(--gold2);
   opacity: 0.7;
@@ -332,6 +332,46 @@ body::after {
 }
 
 /* ═══════════════════════════════════
+   LANDSCAPE OVERLAY
+   ═══════════════════════════════════ */
+.landscape-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--espresso);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px;
+}
+.landscape-overlay svg {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 24px;
+  animation: rotate-phone 1.6s ease-in-out infinite;
+}
+@keyframes rotate-phone {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
+}
+.landscape-overlay .lo-title {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 24px;
+  color: var(--cream);
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+.landscape-overlay .lo-sub {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--gold2);
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════
    REVEAL ANIMATIONS
    ═══════════════════════════════════ */
 .tl-reveal {
@@ -353,19 +393,19 @@ body::after {
     padding: 48px 32px;
   }
   .tl-chapter-inner {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    max-width: 480px;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    max-width: 600px;
   }
   .tl-chapter-head {
-    text-align: center;
-    padding-right: 0;
-    border-right: none;
-    border-bottom: 1px solid var(--cream3);
-    padding-bottom: 24px;
+    text-align: left;
+    padding-right: 24px;
+    border-right: 1px solid var(--cream3);
+    border-bottom: none;
+    padding-bottom: 0;
   }
   .tl-chapter-body {
-    text-align: center;
+    text-align: left;
   }
 }
 
@@ -386,23 +426,52 @@ body::after {
     margin-bottom: 36px;
   }
   .tl-chapter {
-    padding: 32px 20px;
+    padding: 24px 16px;
+    height: auto;
+    min-height: 100vh;
   }
   .tl-chapter-inner {
-    gap: 24px;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .tl-chapter-head {
+    text-align: left;
+    padding-right: 16px;
+    border-right: 1px solid var(--cream3);
   }
   .tl-chapter-num {
-    font-size: clamp(40px, 12vw, 60px);
-    margin-bottom: 8px;
+    font-size: clamp(32px, 10vw, 48px);
+    margin-bottom: 6px;
   }
   .tl-chapter-title {
-    font-size: clamp(24px, 6vw, 32px);
+    font-size: clamp(18px, 5vw, 24px);
   }
+  .tl-chapter-body {
+    text-align: left;
+  }
+  .tl-chapter-text {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .tl-closing-inner {
+    padding: 48px 24px;
+  }
+}
   .tl-chapter-text {
     font-size: 14px;
   }
   .tl-closing-inner {
     padding: 48px 24px;
+  }
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE — Portrait: show landscape overlay
+   ═══════════════════════════════════ */
+@media (max-width: 600px) and (orientation: portrait) {
+  .landscape-overlay {
+    display: flex;
   }
 }
 

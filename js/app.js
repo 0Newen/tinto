@@ -262,21 +262,6 @@
     }, { once: true });
   }
 
-  // iOS in-browser: show install banner
-  (function () {
-    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-    const isStandalone = navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches;
-    const banner = document.getElementById('iosInstallBanner');
-    const dismissed = sessionStorage.getItem('tinto-ios-banner-dismissed');
-    if (isIOS && !isStandalone && banner && !dismissed) {
-      banner.style.display = '';
-      document.getElementById('iosInstallDismiss').addEventListener('click', function (e) {
-        e.stopPropagation();
-        banner.style.display = 'none';
-        sessionStorage.setItem('tinto-ios-banner-dismissed', '1');
-      });
-    }
-  })();
 
   // ── QR + vCard ───────────────────────────────────────────
   const vcardName = DATA.marca + ' \u2014 ' + DATA.tagline;
@@ -366,4 +351,21 @@
       globalThis.drawSpiderChart(canvas);
     }
   });
+
+  // ── Go to contact link (slide 1) ─────────────────────────
+  document.getElementById('goToContact').addEventListener('click', function (e) {
+    e.preventDefault();
+    goTo(total - 1);
+  });
+
+  // ── Back to start link (slide 5) ─────────────────────────
+  document.getElementById('goToStart').addEventListener('click', function (e) {
+    e.preventDefault();
+    goTo(0);
+  });
+
+  // ── Hash navigation ──────────────────────────────────────
+  if (location.hash === '#contacto') {
+    setTimeout(function () { goTo(total - 1); }, 400);
+  }
 })();
