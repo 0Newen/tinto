@@ -42,7 +42,6 @@ body {
   cursor: default;
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 /* ── Grain overlay ── */
@@ -107,7 +106,7 @@ body::after {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 60px 56px 72px;
+  padding: calc(60px + env(safe-area-inset-top, 0px)) calc(56px + env(safe-area-inset-right, 0px)) calc(72px + env(safe-area-inset-bottom, 0px)) calc(56px + env(safe-area-inset-left, 0px));
 }
 
 /* ── Language toggle ── */
@@ -222,6 +221,52 @@ body::after {
 @keyframes ring-breathe {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.5; transform: scale(1.03); }
+}
+
+/* ── iOS Install Banner ── */
+.ios-install-banner {
+  position: absolute;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: rgba(177, 209, 130, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(177, 209, 130, 0.25);
+  border-radius: 12px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cream);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  max-width: 320px;
+  animation: fadeInUp 0.8s 2s both;
+  cursor: pointer;
+}
+.ios-install-banner svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ios-install-banner .dismiss {
+  margin-left: auto;
+  opacity: 0.5;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4px;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 .s1-content {

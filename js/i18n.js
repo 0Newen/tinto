@@ -49,6 +49,9 @@
       phoneColombia: 'Colombia',
       phoneArgentina: 'Argentina',
 
+      // iOS install hint
+      iosInstallHint: 'Para pantalla completa: Compartir \u2192 Agregar a inicio',
+
       // SCA score labels (keyed by original Spanish)
       'Aroma': 'Aroma',
       'Sabor': 'Sabor',
@@ -120,6 +123,9 @@
       instagram: 'Instagram',
       phoneColombia: 'Colombia',
       phoneArgentina: 'Argentina',
+
+      // iOS install hint
+      iosInstallHint: 'For fullscreen: Share \u2192 Add to Home Screen',
 
       // SCA score labels
       'Aroma': 'Aroma',

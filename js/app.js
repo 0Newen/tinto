@@ -253,28 +253,28 @@
     }
   }
 
-  // iOS scroll trick: collapse Safari/Chrome toolbar
-  function iosToolbarHide() {
-    // Temporarily allow scrolling, scroll 1px, then lock again
-    document.body.style.position = 'static';
-    document.body.style.height = 'calc(100vh + 1px)';
-    window.scrollTo(0, 1);
-    setTimeout(() => {
-      document.body.style.position = '';
-      document.body.style.height = '';
-    }, 50);
-  }
-
   if (/Mobi|Android/i.test(navigator.userAgent)) {
     document.addEventListener('touchend', function onFirstTouch() {
       tryFullscreen();
-      // iOS: try to collapse the toolbar
-      if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-        iosToolbarHide();
-      }
       document.removeEventListener('touchend', onFirstTouch);
     }, { once: true });
   }
+
+  // iOS in-browser: show install banner
+  (function () {
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    const isStandalone = navigator.standalone || window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches;
+    const banner = document.getElementById('iosInstallBanner');
+    const dismissed = sessionStorage.getItem('tinto-ios-banner-dismissed');
+    if (isIOS && !isStandalone && banner && !dismissed) {
+      banner.style.display = '';
+      document.getElementById('iosInstallDismiss').addEventListener('click', function (e) {
+        e.stopPropagation();
+        banner.style.display = 'none';
+        sessionStorage.setItem('tinto-ios-banner-dismissed', '1');
+      });
+    }
+  })();
 
   // ── QR + vCard ───────────────────────────────────────────
   const vcardName = DATA.marca + ' \u2014 ' + DATA.tagline;
