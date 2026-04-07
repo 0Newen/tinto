@@ -88,7 +88,7 @@ globalThis.drawSpiderChart = function drawSpiderChart(canvas) {
     }
 
     // Labels
-    ctx.font = "400 10px 'Jost',sans-serif";
+    ctx.font = "400 10px 'Anonymous Pro',monospace";
     ctx.textAlign = 'center';
     ctx.fillStyle = 'rgba(43,70,60,0.85)';
     for (let i = 0; i < n; i++) {

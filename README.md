@@ -34,7 +34,7 @@ tinto/
 ## Tecnologías
 
 - **Vanilla HTML / CSS / JS** — Sin framework, sin build tools
-- **Google Fonts** — Cormorant Garamond + Jost
+- **Google Fonts** — Anonymous Pro
 - **QRCode.js** — Generación de QR para vCard
 - **Canvas API** — Gráfico spider/radar para puntajes SCA
 - **Web App Manifest** — Experiencia standalone en mobile

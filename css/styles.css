@@ -27,12 +27,17 @@
 html,
 body {
   width: 100%;
+  height: 100dvh;
   height: 100%;
   overflow: hidden;
   background: var(--cream);
-  font-family: 'Jost', sans-serif;
+  font-family: 'Anonymous Pro', monospace;
   color: var(--ink);
   cursor: default;
+}
+
+@supports (height: 100dvh) {
+  html, body { height: 100dvh; }
 }
 
 /* ── Grain overlay ── */
@@ -118,7 +123,7 @@ body::after {
   outline: none;
 
   /* reset button */
-  font-family: 'Jost', sans-serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: 10px;
   font-weight: 400;
   letter-spacing: 0.08em;
@@ -251,9 +256,9 @@ body::after {
 }
 
 .s1-logo {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: clamp(72px, 15vw, 128px);
-  font-weight: 300;
+  font-weight: 700;
   color: var(--cream);
   letter-spacing: 0.18em;
   line-height: 1;
@@ -261,7 +266,7 @@ body::after {
 }
 
 .s1-tagline {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-style: italic;
   font-size: clamp(16px, 2.5vw, 22px);
   color: var(--gold2);
@@ -319,7 +324,7 @@ body::after {
 }
 
 .s2-heading {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: clamp(40px, 7vw, 68px);
   font-weight: 300;
   color: var(--espresso);
@@ -387,7 +392,7 @@ body::after {
   font-weight: 400;
 }
 .s2-fact-v {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: 20px;
   color: var(--espresso);
   font-weight: 400;
@@ -407,7 +412,7 @@ body::after {
   font-weight: 400;
 }
 .s2-caf-name {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: 26px;
   color: var(--espresso);
   font-weight: 400;
@@ -436,7 +441,7 @@ body::after {
 }
 
 .s3-quote {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: clamp(26px, 4.5vw, 44px);
   font-style: italic;
   font-weight: 300;
@@ -536,7 +541,7 @@ body::after {
 }
 
 .s4-score-num {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: clamp(72px, 10vw, 96px);
   font-weight: 300;
   color: var(--espresso);
@@ -628,7 +633,7 @@ body::after {
   opacity: 1;
 }
 .s4-bar-pts {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: 13px;
   color: var(--espresso);
   width: 26px;
@@ -674,7 +679,7 @@ body::after {
 }
 
 .s5-name {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: clamp(36px, 6vw, 52px);
   font-weight: 300;
   color: var(--cream);
@@ -918,7 +923,7 @@ body::after {
   }
 }
 .landscape-overlay .lo-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Anonymous Pro', monospace;
   font-size: 24px;
   color: var(--cream);
   font-weight: 400;
