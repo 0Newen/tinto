@@ -121,6 +121,8 @@
   // ── Navigation ───────────────────────────────────────────
   let current = 0;
   let isAnimating = false;
+  const themeColors = ['#2B463C', '#F4F1E9', '#2B463C', '#F4F1E9', '#2B463C'];
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
 
   function goTo(idx) {
     if (idx === current || isAnimating || idx < 0 || idx >= total) return;
@@ -139,6 +141,7 @@
   function updateUI() {
     document.getElementById('btnPrev').classList.toggle('hidden', current === 0);
     document.getElementById('btnNext').classList.toggle('hidden', current === total - 1);
+    if (themeMeta) themeMeta.setAttribute('content', themeColors[current] || '#2B463C');
     const segs = document.querySelectorAll('.prog-seg');
     for (let i = 0; i < segs.length; i++) {
       segs[i].classList.remove('done', 'active');

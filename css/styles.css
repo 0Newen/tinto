@@ -24,8 +24,10 @@
   --gold2: #B1D182;
 }
 
-html {
-  height: 100%;
+html,
+body {
+  width: 100%;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -105,8 +107,14 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
   padding: calc(60px + env(safe-area-inset-top, 0px)) calc(56px + env(safe-area-inset-right, 0px)) calc(72px + env(safe-area-inset-bottom, 0px)) calc(56px + env(safe-area-inset-left, 0px));
+}
+.slide::-webkit-scrollbar {
+  display: none;
 }
 
 /* ── Language toggle ── */
@@ -357,7 +365,7 @@ body::after {
   background: var(--cream);
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .s2-label {
@@ -474,7 +482,7 @@ body::after {
   background: var(--espresso);
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .s3-label {
@@ -707,7 +715,7 @@ body::after {
   background: var(--espresso);
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
 }
 
@@ -989,24 +997,61 @@ body::after {
 /* ── Responsive ── */
 @media (max-width: 600px) {
   .slide {
-    padding: 56px 28px 70px;
+    padding: 40px 24px 48px;
   }
   .s4 {
     flex-direction: column;
-    gap: 24px;
-    padding-top: 64px;
+    gap: 16px;
+    padding-top: 40px;
+    padding-bottom: 32px;
   }
   .s4-bars {
     width: 100%;
+    gap: 6px;
+  }
+  .s4-score-num {
+    font-size: 56px;
+  }
+  .s4-divider {
+    margin: 14px 0;
+  }
+  .s4-bar-lbl {
+    width: 60px;
+    font-size: 8px;
+  }
+  .s4-bar-pts {
+    font-size: 11px;
+  }
+  .s4-right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
   .nav-btn {
     display: none;
   }
+  .s2-label {
+    margin-bottom: 20px;
+  }
+  .s2-heading {
+    margin-bottom: 20px;
+  }
   .s2-facts {
     flex-wrap: wrap;
+    margin-bottom: 24px;
   }
   .s2-fact {
     flex: 1 0 45%;
+    padding: 14px 0;
+  }
+  .s2-fact + .s2-fact {
+    padding-left: 16px;
+  }
+  .s2-fact:last-child {
+    padding-left: 16px;
+  }
+  .s2-fact-v {
+    font-size: 17px;
   }
   .s5-body {
     flex-direction: column;
@@ -1034,5 +1079,457 @@ body::after {
 @media (max-width: 600px) and (orientation: portrait) {
   .landscape-overlay {
     display: flex;
+  }
+}
+
+/* ── Short phones (iPhone SE — 667px height) ── */
+@media (max-width: 430px) and (max-height: 700px) {
+  .slide {
+    padding: 32px 20px 36px;
+  }
+
+  /* Slide 1 */
+  .s1-logo {
+    font-size: 56px;
+    margin-bottom: 12px;
+  }
+  .s1-eyebrow {
+    margin-bottom: 16px;
+  }
+  .s1-tagline {
+    font-size: 15px;
+  }
+  .s1-divider {
+    margin: 14px auto;
+  }
+  .s1-spacer {
+    height: 20px;
+  }
+
+  /* Slide 2 */
+  .s2-label {
+    margin-bottom: 12px;
+  }
+  .s2-heading {
+    font-size: 36px;
+    margin-bottom: 14px;
+  }
+  .s2-facts {
+    margin-bottom: 16px;
+  }
+  .s2-fact {
+    padding: 10px 0;
+  }
+  .s2-fact-k {
+    font-size: 8px;
+  }
+  .s2-fact-v {
+    font-size: 15px;
+  }
+  .s2-caf-name {
+    font-size: 22px;
+  }
+
+  /* Slide 3 */
+  .s3-label {
+    margin-bottom: 16px;
+  }
+  .s3-quote {
+    font-size: 22px;
+    margin-bottom: 24px;
+  }
+  .s3-chips {
+    gap: 8px;
+  }
+  .s3-chip {
+    padding: 5px 12px;
+    font-size: 9px;
+  }
+  .s3-attr {
+    bottom: 44px;
+    right: 20px;
+  }
+
+  /* Slide 4 */
+  .s4 {
+    gap: 10px;
+    padding-top: 32px;
+    padding-bottom: 24px;
+  }
+  .s4-score-num {
+    font-size: 48px;
+  }
+  .s4-score-label {
+    margin-bottom: 4px;
+  }
+  .s4-score-unit {
+    font-size: 10px;
+  }
+  .s4-divider {
+    margin: 10px 0;
+  }
+  .s4-bars {
+    gap: 4px;
+  }
+  .s4-bar-row {
+    gap: 6px;
+  }
+  .s4-bar-lbl {
+    width: 54px;
+    font-size: 7px;
+  }
+  .s4-bar-pts {
+    font-size: 10px;
+    width: 22px;
+  }
+
+  /* Slide 5 */
+  .s5-header {
+    margin-bottom: 16px;
+  }
+  .s5-name {
+    font-size: 32px;
+  }
+  .s5-body {
+    gap: 20px;
+  }
+  .s5-qr-border {
+    padding: 8px;
+  }
+  .s5-tap-hint {
+    margin-top: 8px;
+  }
+  .s5-hint {
+    margin-top: 8px;
+  }
+  .s5-info-col {
+    gap: 16px;
+  }
+}
+
+/* ── Medium phones (iPhone 12 mini, 16e — ~812px height) ── */
+@media (max-width: 430px) and (min-height: 701px) and (max-height: 850px) {
+  .slide {
+    padding: 36px 24px 44px;
+  }
+
+  .s2-label {
+    margin-bottom: 16px;
+  }
+  .s2-heading {
+    margin-bottom: 18px;
+  }
+  .s2-facts {
+    margin-bottom: 20px;
+  }
+
+  .s3-label {
+    margin-bottom: 20px;
+  }
+  .s3-quote {
+    margin-bottom: 32px;
+  }
+
+  .s4 {
+    gap: 14px;
+    padding-top: 36px;
+    padding-bottom: 28px;
+  }
+  .s4-score-num {
+    font-size: 52px;
+  }
+  .s4-divider {
+    margin: 12px 0;
+  }
+
+  .s5-header {
+    margin-bottom: 24px;
+  }
+}
+
+/* ═══════════════════════════════════
+   Landscape phones (iPhone in landscape)
+   Height 375–430px, Width 667–932px
+   ═══════════════════════════════════ */
+@media (max-height: 450px) and (orientation: landscape) {
+  /* Compact progress bar */
+  .progress {
+    padding: 8px 32px;
+  }
+
+  .slide {
+    padding: 28px 48px 20px;
+  }
+
+  /* Safe-center: auto margins center content when room allows,
+     collapse naturally when content overflows */
+  .s2-caficultor { margin-bottom: auto; }
+
+  /* ── Slide 1 — Marca ── */
+  .s1-eyebrow {
+    margin-bottom: clamp(8px, 2.5vh, 16px);
+    font-size: 9px;
+  }
+  .s1-logo {
+    font-size: clamp(40px, 11vh, 64px);
+    margin-bottom: clamp(4px, 1.5vh, 10px);
+  }
+  .s1-tagline {
+    font-size: clamp(13px, 3.5vh, 16px);
+  }
+  .s1-divider {
+    margin: clamp(6px, 1.5vh, 12px) auto;
+  }
+  .s1-spacer {
+    height: clamp(6px, 2vh, 16px);
+  }
+  .s1-sub {
+    font-size: 9px;
+  }
+
+  /* ── Slide 2 — Origen ── */
+  .s2-label {
+    margin-top: auto;
+    margin-bottom: clamp(6px, 2vh, 14px);
+  }
+  .s2-heading {
+    font-size: clamp(28px, 8vh, 42px);
+    margin-bottom: clamp(8px, 2.5vh, 16px);
+  }
+  .s2-facts {
+    margin-bottom: clamp(8px, 2.5vh, 16px);
+  }
+  .s2-fact {
+    padding: clamp(6px, 1.8vh, 12px) 0;
+  }
+  .s2-fact-k {
+    font-size: 8px;
+  }
+  .s2-fact-v {
+    font-size: clamp(14px, 3.8vh, 18px);
+  }
+  .s2-caf-label {
+    font-size: 8px;
+    margin-bottom: clamp(2px, 0.8vh, 5px);
+  }
+  .s2-caf-name {
+    font-size: clamp(18px, 5vh, 24px);
+  }
+
+  /* ── Slide 3 — Notas ── */
+  .s3-label {
+    margin-top: auto;
+    margin-bottom: clamp(8px, 2.5vh, 16px);
+  }
+  .s3-quote {
+    font-size: clamp(18px, 5vh, 28px);
+    margin-bottom: clamp(12px, 3.5vh, 24px);
+    line-height: 1.35;
+  }
+  .s3-chips {
+    gap: clamp(5px, 1.5vh, 9px);
+    margin-bottom: auto;
+  }
+  .s3-chip {
+    padding: clamp(3px, 1vh, 6px) clamp(10px, 2vw, 14px);
+    font-size: clamp(8px, 2.2vh, 10px);
+  }
+  .s3-attr {
+    bottom: 20px;
+    right: 48px;
+    font-size: 8px;
+  }
+
+  /* ── Slide 4 — Puntuación ── */
+  .s4 {
+    gap: clamp(28px, 5vw, 48px);
+    padding: 28px 40px 20px;
+  }
+  .s4-score-label {
+    margin-bottom: clamp(2px, 0.8vh, 6px);
+    font-size: 9px;
+  }
+  .s4-score-num {
+    font-size: clamp(40px, 11vh, 56px);
+  }
+  .s4-score-unit {
+    font-size: 9px;
+    margin-top: clamp(2px, 0.8vh, 5px);
+  }
+  .s4-divider {
+    margin: clamp(6px, 2vh, 14px) 0;
+  }
+  .s4-bars {
+    gap: clamp(1px, 0.6vh, 5px);
+    width: 180px;
+  }
+  .s4-bar-row {
+    gap: 8px;
+  }
+  .s4-bar-lbl {
+    font-size: clamp(7px, 1.8vh, 9px);
+    width: 60px;
+  }
+  .s4-bar-pts {
+    font-size: clamp(10px, 2.8vh, 13px);
+    width: 24px;
+  }
+
+  /* ── Slide 5 — Contacto ── */
+  .s5 {
+    padding: 28px 48px 20px;
+  }
+  .s5-header {
+    margin-top: auto;
+    margin-bottom: clamp(8px, 2.5vh, 18px);
+  }
+  .s5-label {
+    margin-bottom: clamp(4px, 1.2vh, 10px);
+    font-size: 9px;
+  }
+  .s5-name {
+    font-size: clamp(28px, 8vh, 42px);
+  }
+  .s5-body {
+    gap: clamp(28px, 4vw, 44px);
+    margin-bottom: auto;
+  }
+  .s5-qr-border {
+    padding: clamp(5px, 1.5vh, 10px);
+  }
+  .s5-qr-wrap {
+    margin-bottom: clamp(6px, 1.5vh, 12px);
+  }
+  .s5-tap-hint {
+    margin-top: clamp(3px, 1vh, 8px);
+    font-size: 8px;
+  }
+  .s5-tap-hint svg {
+    width: 14px;
+    height: 14px;
+  }
+  .s5-hint {
+    margin-top: clamp(3px, 1vh, 8px);
+    font-size: 8px;
+  }
+  .s5-divider-v {
+    height: clamp(80px, 26vh, 140px);
+  }
+  .s5-info-col {
+    gap: clamp(10px, 3vh, 20px);
+  }
+  .s5-info-group {
+    gap: clamp(4px, 1.2vh, 6px);
+  }
+  .s5-info-group-title {
+    font-size: 8px;
+  }
+  .s5-phone-num {
+    font-size: clamp(12px, 3.2vh, 14px);
+  }
+  .s5-phone-label {
+    font-size: 9px;
+    width: 60px;
+  }
+  .s5-contact-value {
+    font-size: clamp(12px, 3.2vh, 14px);
+  }
+  .s5-contacts-phones {
+    gap: clamp(4px, 1.2vh, 8px);
+  }
+}
+
+/* ── Shortest landscape (iPhone SE — 375px height) ── */
+@media (max-height: 380px) and (orientation: landscape) {
+  .progress {
+    padding: 6px 24px;
+  }
+  .slide {
+    padding: 24px 36px 12px;
+  }
+  .s1-logo {
+    font-size: 36px;
+  }
+  .s1-eyebrow {
+    margin-bottom: 8px;
+  }
+  .s1-spacer {
+    height: 6px;
+  }
+  .s2-heading {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+  .s2-facts {
+    margin-bottom: 6px;
+  }
+  .s2-fact {
+    padding: 5px 0;
+  }
+  .s2-fact-v {
+    font-size: 13px;
+  }
+  .s2-caf-name {
+    font-size: 16px;
+  }
+  .s3-quote {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .s3-chip {
+    padding: 3px 8px;
+    font-size: 7px;
+  }
+  .s4 {
+    gap: 20px;
+    padding: 24px 32px 12px;
+  }
+  .s4-score-num {
+    font-size: 34px;
+  }
+  .s4-divider {
+    margin: 4px 0;
+  }
+  .s4-bars {
+    gap: 0;
+    width: 150px;
+  }
+  .s4-bar-lbl {
+    font-size: 6.5px;
+    width: 48px;
+  }
+  .s4-bar-pts {
+    font-size: 9px;
+    width: 20px;
+  }
+  .s5 {
+    padding: 24px 36px 12px;
+  }
+  .s5-name {
+    font-size: 24px;
+  }
+  .s5-body {
+    gap: 20px;
+  }
+  .s5-qr-border {
+    padding: 4px;
+  }
+  .s5-divider-v {
+    height: 80px;
+  }
+  .s5-info-col {
+    gap: 8px;
+  }
+  .s5-phone-num {
+    font-size: 11px;
+  }
+  .s5-contact-value {
+    font-size: 11px;
+  }
+  /* Scale QR down on shortest phones */
+  #qrHolder img,
+  #qrHolder canvas {
+    width: 96px !important;
+    height: 96px !important;
   }
 }

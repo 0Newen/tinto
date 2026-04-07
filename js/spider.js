@@ -4,8 +4,20 @@
  */
 globalThis.drawSpiderChart = function drawSpiderChart(canvas) {
   const DATA = globalThis.PROFILE_DATA;
-  const isMobile = globalThis.innerWidth < 600;
-  const SZ = isMobile ? Math.min(globalThis.innerWidth - 56, 260) : 280;
+  const w = globalThis.innerWidth;
+  const h = globalThis.innerHeight;
+  const isLandscapePhone = h <= 450 && w > h;
+  const isPortraitPhone = w <= 430;
+  let SZ;
+  if (isLandscapePhone) {
+    SZ = Math.min(h - 56, 220);
+  } else if (isPortraitPhone) {
+    SZ = h <= 700
+      ? Math.min(w - 48, 160)
+      : Math.min(w - 56, 200);
+  } else {
+    SZ = 280;
+  }
   canvas.width = SZ;
   canvas.height = SZ;
 
