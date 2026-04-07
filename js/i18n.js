@@ -23,6 +23,7 @@
       eyebrow: 'Caf\u00E9 de Especialidad',
       tagline: 'Tradici\u00F3n y Especialidad',
       explore: 'Toc\u00E1 o desliz\u00E1 para explorar \u2192',
+      ourStory: 'Nuestra Historia \u2193',
 
       // Slide 2
       origin: 'Origen',
@@ -98,6 +99,7 @@
       eyebrow: 'Specialty Coffee',
       tagline: 'Tradition & Specialty',
       explore: 'Tap or swipe to explore \u2192',
+      ourStory: 'Our Story \u2193',
 
       // Slide 2
       origin: 'Origin',
