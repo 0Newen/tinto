@@ -248,11 +248,32 @@
   function tryFullscreen() {
     const el = document.documentElement;
     const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
-    if (rfs) rfs.call(el).catch(() => {});
-    document.removeEventListener('touchend', tryFullscreen);
+    if (rfs) {
+      rfs.call(el).catch(() => {});
+    }
   }
+
+  // iOS scroll trick: collapse Safari/Chrome toolbar
+  function iosToolbarHide() {
+    // Temporarily allow scrolling, scroll 1px, then lock again
+    document.body.style.position = 'static';
+    document.body.style.height = 'calc(100vh + 1px)';
+    window.scrollTo(0, 1);
+    setTimeout(() => {
+      document.body.style.position = '';
+      document.body.style.height = '';
+    }, 50);
+  }
+
   if (/Mobi|Android/i.test(navigator.userAgent)) {
-    document.addEventListener('touchend', tryFullscreen, { once: true });
+    document.addEventListener('touchend', function onFirstTouch() {
+      tryFullscreen();
+      // iOS: try to collapse the toolbar
+      if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        iosToolbarHide();
+      }
+      document.removeEventListener('touchend', onFirstTouch);
+    }, { once: true });
   }
 
   // ── QR + vCard ───────────────────────────────────────────
