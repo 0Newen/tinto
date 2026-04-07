@@ -20,7 +20,7 @@
   document.getElementById('s3Quote').textContent = t('quote');
   document.getElementById('s4Score').textContent = '0';
   document.getElementById('s5Name').textContent = DATA.marca;
-  document.getElementById('s3Attr').textContent = DATA.variedad + ' \u00B7 ' + DATA.origen;
+  document.getElementById('s3Attr').textContent = '';
 
   // Facts (slide 2)
   const factKeys = ['factRegion', 'factAltitude', 'factProcess', 'factRoast'];
@@ -67,7 +67,6 @@
   // Phones
   const phonesEl = document.getElementById('s5Phones');
   [
-    { label: 'phoneColombia', v: DATA.contacto.tel1 },
     { label: 'phoneArgentina', v: DATA.contacto.tel2 },
   ].forEach((p) => {
     const div = document.createElement('div');
@@ -293,7 +292,6 @@
       'ORG:TINTO - Tradicion y Especialidad',
       'X-ABShowAs:COMPANY',
       'EMAIL:' + c.email,
-      'TEL:' + c.tel1,
       'TEL:' + c.tel2,
       'END:VCARD',
     ].join('\n');
@@ -331,7 +329,6 @@
         'ORG:' + vcardName,
         'X-ABShowAs:COMPANY',
         'EMAIL:' + ct.email,
-        'TEL;TYPE=CELL:' + ct.tel1,
         'TEL;TYPE=CELL:' + ct.tel2,
         'URL:https://instagram.com/' + ct.instagram.replace('@', ''),
       ];

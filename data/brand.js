@@ -8,7 +8,6 @@ globalThis.BRAND_DATA = {
 
   contacto: {
     email: 'tintocafe25@gmail.com',
-    tel1: '+57 316 250 1382',
     tel2: '+54 9 11 2399 8913',
     instagram: '@tintocafe25',
     foto: 'https://cdn-icons-png.freepik.com/512/2156/2156358.png',
