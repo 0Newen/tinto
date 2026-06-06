@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TINTO — Círculo de Amigas · Cata Compartida</title>
+  <style>
+    /* ── Tokens de marca TINTO ── */
+    :root {
+      --ink:      #1a2e24;
+      --espresso: #2B463C;
+      --brown:    #688F4E;
+      --cream:    #F4F1E9;
+      --cream2:   #e8ebdf;
+      --cream3:   #d4dbc8;
+      --gold:     #B1D182;
+      --rose:     #b07a91;
+      --rose-bg:  #f8f0f4;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 10.5pt;
+      line-height: 1.65;
+    }
+
+    /* ══════════════════════════════
+       PRINT
+    ══════════════════════════════ */
+    @media print {
+      body { font-size: 9.5pt; background: white; padding: 0; }
+      .no-print { display: none !important; }
+      .tarjetas-page { display: flex !important; }
+      @page { size: A4; margin: 0; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page {
+        max-width: 210mm !important;
+        min-height: 297mm !important;
+        padding: 14mm 16mm !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        page-break-after: always;
+      }
+      .page-footer {
+        position: absolute !important;
+        bottom: 10mm !important;
+        left: 16mm !important;
+        right: 16mm !important;
+      }
+      .tarjetas-page {
+        max-width: 210mm !important;
+        min-height: 297mm !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        page-break-after: always;
+      }
+    }
+
+    /* ══════════════════════════════
+       PANTALLA — tarjetas flotantes
+    ══════════════════════════════ */
+    @media screen {
+      body { background: #d4d0c4; padding: 2rem 1rem; }
+      .page {
+        max-width: 820px;
+        padding: 2.8rem 3.8rem;
+        min-height: auto;
+        box-shadow: 0 4px 28px rgba(26,46,36,0.13), 0 1px 4px rgba(26,46,36,0.06);
+        border-radius: 6px;
+        margin: 0 auto 2.8rem;
+      }
+      .page.cover { padding: 3.5rem 3.8rem; }
+      .page-footer {
+        position: static;
+        margin-top: 2.5rem;
+        left: auto; right: auto; bottom: auto;
+      }
+      .tarjetas-page {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        max-width: 640px;
+        height: auto;
+        padding: 1.5rem;
+        margin: 0 auto 2.8rem;
+        box-shadow: 0 4px 28px rgba(26,46,36,0.13);
+        border-radius: 6px;
+        background: var(--cream);
+      }
+      .t-half { height: auto; min-height: 0; padding: 1.5rem 2rem; }
+    }
+
+    /* ══════════════════════════════
+       LAYOUT BASE
+    ══════════════════════════════ */
+    .page {
+      background: var(--cream);
+      max-width: 210mm;
+      min-height: 297mm;
+      padding: 14mm 16mm;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── PORTADA ── */
+    .cover {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-top: 2rem;
+    }
+
+    .cover-logo {
+      font-family: 'Georgia', serif;
+      font-size: 38pt;
+      font-weight: bold;
+      letter-spacing: 0.2em;
+      color: var(--espresso);
+      border-bottom: 2px solid var(--brown);
+      padding-bottom: 0.25rem;
+      line-height: 1;
+    }
+
+    .cover-tagline {
+      font-size: 8.5pt;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--brown);
+      margin-top: 0.4rem;
+    }
+
+    .cover-divider {
+      width: 60mm;
+      height: 1px;
+      background: var(--gold);
+      margin: 1.2rem auto;
+      opacity: 0.7;
+    }
+
+    .cover-doc-title {
+      font-size: 22pt;
+      font-weight: bold;
+      color: var(--espresso);
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+    }
+
+    .cover-doc-title em {
+      font-style: italic;
+      color: var(--rose);
+      display: block;
+      font-size: 14pt;
+      font-weight: normal;
+      margin-top: 0.3rem;
+    }
+
+    .cover-subtitle {
+      font-size: 9pt;
+      color: #888;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+
+    .cover-meta {
+      font-size: 9pt;
+      color: #999;
+      letter-spacing: 0.08em;
+    }
+
+    .cover-concept {
+      background: var(--cream2);
+      border-left: 3px solid var(--rose);
+      border-radius: 0 6px 6px 0;
+      padding: 1rem 1.4rem;
+      margin: 1.4rem 0;
+      text-align: left;
+      max-width: 460px;
+    }
+
+    .cover-concept-label {
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--rose);
+      font-family: 'Arial', sans-serif;
+      margin-bottom: 0.4rem;
+    }
+
+    .cover-concept-quote {
+      font-size: 10.5pt;
+      color: var(--espresso);
+      line-height: 1.65;
+    }
+
+    .cover-concept-quote em {
+      font-style: italic;
+      color: var(--brown);
+    }
+
+    .chips-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .chip {
+      font-size: 8pt;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-family: 'Arial', sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    .chip.primary   { background: var(--gold); color: var(--espresso); font-weight: bold; }
+    .chip.secondary { background: transparent; border: 1px solid var(--brown); color: var(--brown); }
+    .chip.rose      { background: var(--rose-bg); border: 1px solid var(--rose); color: var(--rose); }
+
+    .cover-intro {
+      font-size: 10pt;
+      color: #555;
+      line-height: 1.7;
+      max-width: 420px;
+      text-align: center;
+      margin: 0.6rem 0 1rem;
+    }
+
+    .cover-footer {
+      margin-top: auto;
+      font-size: 8pt;
+      color: #aaa;
+      letter-spacing: 0.1em;
+      font-family: 'Arial', sans-serif;
+      text-transform: uppercase;
+      padding-top: 1.5rem;
+    }
+
+    /* ── PÁGINAS INTERNAS ── */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--espresso);
+    }
+
+    .page-header .brand {
+      font-size: 11pt;
+      font-weight: bold;
+      color: var(--espresso);
+      letter-spacing: 0.15em;
+    }
+
+    .page-header .doc-id {
+      font-size: 8pt;
+      color: #aaa;
+      letter-spacing: 0.1em;
+      font-family: 'Arial', sans-serif;
+      text-transform: uppercase;
+    }
+
+    /* ── CRONOGRAMA ── */
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9pt;
+      margin-bottom: 1.4rem;
+    }
+
+    .schedule-table th {
+      background: var(--espresso);
+      color: var(--gold);
+      font-family: 'Arial', sans-serif;
+      font-size: 7.5pt;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.45rem 0.7rem;
+      text-align: left;
+    }
+
+    .schedule-table td {
+      padding: 0.4rem 0.7rem;
+      border-bottom: 1px solid var(--cream3);
+      vertical-align: middle;
+    }
+
+    .schedule-table tr:nth-child(even) td { background: var(--cream2); }
+
+    .schedule-table .phase-num {
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      color: var(--brown);
+      font-size: 8pt;
+    }
+
+    .schedule-table .time-badge {
+      display: inline-block;
+      background: var(--espresso);
+      color: var(--gold);
+      font-family: 'Arial', sans-serif;
+      font-size: 7.5pt;
+      font-weight: bold;
+      padding: 0.15rem 0.5rem;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    .total-row td {
+      background: var(--espresso) !important;
+      color: var(--gold);
+      font-weight: bold;
+      font-family: 'Arial', sans-serif;
+      font-size: 9pt;
+    }
+
+    /* ── FASES ── */
+    .fase { margin-bottom: 1.1rem; break-inside: avoid; }
+
+    .fase-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .fase-badge {
+      font-family: 'Arial', sans-serif;
+      font-size: 7.5pt;
+      font-weight: bold;
+      background: var(--espresso);
+      color: var(--gold);
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .fase-badge.rose {
+      background: var(--rose-bg);
+      color: var(--rose);
+      border: 1px solid var(--rose);
+    }
+
+    .fase-title {
+      font-size: 11pt;
+      font-weight: bold;
+      color: var(--espresso);
+    }
+
+    .fase-time {
+      font-size: 8pt;
+      color: #aaa;
+      font-family: 'Arial', sans-serif;
+      letter-spacing: 0.08em;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    .fase-body { font-size: 10pt; }
+    .fase-body > p { margin-bottom: 0.45rem; }
+
+    .section-label {
+      font-family: 'Arial', sans-serif;
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--brown);
+      margin: 0.8rem 0 0.4rem;
+      padding-bottom: 0.2rem;
+      border-bottom: 1px solid var(--cream3);
+    }
+
+    ul.steps { list-style: none; padding: 0; }
+
+    ul.steps li {
+      padding: 0.2rem 0 0.2rem 1.4rem;
+      position: relative;
+      font-size: 10pt;
+    }
+
+    ul.steps li::before {
+      content: '—';
+      color: var(--brown);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    /* ── Tip ── */
+    .tip {
+      background: var(--cream2);
+      border-left: 3px solid var(--brown);
+      border-radius: 0 4px 4px 0;
+      padding: 0.6rem 0.9rem;
+      font-size: 9.5pt;
+      color: var(--espresso);
+      margin: 0.7rem 0;
+      line-height: 1.55;
+    }
+
+    .tip::before {
+      content: 'Nota · ';
+      font-family: 'Arial', sans-serif;
+      font-size: 7.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--brown);
+    }
+
+    /* ── Script ── */
+    .script-box {
+      background: var(--espresso);
+      color: var(--cream);
+      border-radius: 5px;
+      padding: 0.85rem 1.1rem;
+      font-size: 10pt;
+      font-style: italic;
+      line-height: 1.65;
+      margin: 0.6rem 0;
+    }
+
+    .script-box::before {
+      content: 'La barista dice · ';
+      font-style: normal;
+      font-family: 'Arial', sans-serif;
+      font-size: 7.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── Frascos ── */
+    .frascos-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin: 0.6rem 0;
+    }
+
+    .frasco {
+      background: var(--cream2);
+      border-radius: 5px;
+      padding: 0.65rem 0.7rem;
+      text-align: center;
+    }
+
+    .frasco-num {
+      font-family: 'Arial', sans-serif;
+      font-size: 7pt;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--brown);
+      margin-bottom: 0.25rem;
+    }
+
+    .frasco-name {
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: var(--espresso);
+      margin-bottom: 0.2rem;
+    }
+
+    .frasco-detail { font-size: 8pt; color: #777; }
+
+    .frasco-metafora {
+      font-size: 8pt;
+      font-style: italic;
+      color: var(--rose);
+      margin-top: 0.3rem;
+      line-height: 1.4;
+    }
+
+    /* ── Parámetros V60 ── */
+    .params-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.4rem;
+      margin: 0.5rem 0;
+    }
+
+    .param {
+      background: var(--espresso);
+      color: var(--cream);
+      border-radius: 4px;
+      padding: 0.5rem 0.6rem;
+      text-align: center;
+    }
+
+    .param-label {
+      font-family: 'Arial', sans-serif;
+      font-size: 6.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .param-value {
+      font-size: 10pt;
+      font-weight: bold;
+      color: var(--cream);
+    }
+
+    /* ── Timeline V60 ── */
+    .v60-steps {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.3rem 0.8rem;
+      margin: 0.5rem 0;
+      align-items: start;
+    }
+
+    .v60-time {
+      font-family: 'Arial', sans-serif;
+      font-size: 8pt;
+      font-weight: bold;
+      color: var(--espresso);
+      background: var(--gold);
+      padding: 0.15rem 0.45rem;
+      border-radius: 10px;
+      white-space: nowrap;
+      justify-self: start;
+      margin-top: 0.1rem;
+    }
+
+    .v60-desc { font-size: 10pt; }
+
+    /* ── Checklist ── */
+    .checklist-group { margin-bottom: 1.1rem; break-inside: avoid; }
+
+    .checklist-group-title {
+      font-family: 'Arial', sans-serif;
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--brown);
+      border-bottom: 1px solid var(--cream3);
+      padding-bottom: 0.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      columns: 2;
+      column-gap: 1.5rem;
+      font-size: 9.5pt;
+    }
+
+    .checklist li {
+      padding: 0.2rem 0 0.2rem 1.4rem;
+      position: relative;
+      break-inside: avoid;
+    }
+
+    .checklist li::before {
+      content: '☐';
+      position: absolute;
+      left: 0;
+      color: var(--brown);
+      font-size: 9pt;
+    }
+
+    /* ── Page footer ── */
+    .page-footer {
+      position: absolute;
+      bottom: 10mm;
+      left: 16mm;
+      right: 16mm;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #bbb;
+      font-family: 'Arial', sans-serif;
+      border-top: 1px solid var(--cream3);
+      padding-top: 0.3rem;
+    }
+
+    /* ── Helpers ── */
+    h2.section-title {
+      font-size: 11pt;
+      font-weight: bold;
+      color: var(--espresso);
+      border-bottom: 1px solid var(--cream3);
+      padding-bottom: 0.3rem;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.04em;
+    }
+
+    .note-small {
+      font-size: 8.5pt;
+      color: #888;
+      font-style: italic;
+      margin: 0.3rem 0 0.6rem;
+    }
+
+    .no-print { text-align: center; margin-bottom: 1.5rem; }
+
+    .no-print button {
+      background: var(--espresso);
+      color: var(--gold);
+      border: none;
+      padding: 0.6rem 1.8rem;
+      font-size: 10.5pt;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+    }
+
+    .no-print button:hover { background: var(--ink); }
+
+    .no-print small {
+      display: block;
+      margin-top: 0.4rem;
+      font-size: 8.5pt;
+      color: #888;
+    }
+
+    /* ══════════════════════════════
+       TARJETAS GUÍA — 2 por hoja A4
+    ══════════════════════════════ */
+    @media print {
+      .page { display: block; }
+      .tarjetas-page { display: flex !important; }
+    }
+
+    .tarjetas-page {
+      display: none;
+      flex-direction: column;
+      width: 210mm;
+      height: 297mm;
+      background: var(--cream);
+      overflow: hidden;
+    }
+
+    .t-half {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 12mm 18mm;
+      position: relative;
+    }
+
+    .t-half + .t-half {
+      border-top: 1px dashed var(--cream3);
+    }
+
+    .t-logo {
+      font-family: 'Georgia', serif;
+      font-size: 14pt;
+      font-weight: bold;
+      letter-spacing: 0.2em;
+      color: var(--espresso);
+    }
+
+    .t-label {
+      font-family: 'Arial', sans-serif;
+      font-size: 7pt;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--brown);
+      margin-top: 0.2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .t-divider {
+      width: 40mm;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .t-questions {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .t-question { border-bottom: 1px solid var(--cream3); padding-bottom: 0.4rem; }
+
+    .t-q-label {
+      font-size: 7pt;
+      font-family: 'Arial', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--brown);
+      margin-bottom: 0.2rem;
+    }
+
+    .t-q-text {
+      font-size: 9.5pt;
+      font-style: italic;
+      color: var(--espresso);
+      line-height: 1.5;
+    }
+
+    .t-write-line {
+      border-bottom: 1px solid var(--cream3);
+      height: 1.4rem;
+      margin-top: 0.25rem;
+    }
+
+    .t-footer {
+      font-size: 7.5pt;
+      color: #bbb;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin-top: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .t-ornament {
+      position: absolute;
+      font-size: 26pt;
+      color: var(--cream3);
+      font-family: 'Georgia', serif;
+      line-height: 1;
+    }
+
+    .t-ornament.tr { top: 10mm; right: 14mm; }
+    .t-ornament.bl { bottom: 6mm; left: 14mm; }
+  </style>
+</head>
+<body>
+
+<script>
+  function printTarjetas() { window.print(); }
+</script>
+
+<!-- ── BOTÓN IMPRIMIR ── -->
+<div class="no-print">
+  <button onclick="printTarjetas()">🖨 Imprimir Tarjetas Guía</button>
+  <small>El guion se usa en pantalla durante la actividad · Imprime las tarjetas por separado (2 por hoja, 1 por invitada)</small>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PÁGINA 1 · PORTADA
+══════════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-logo">TINTO</div>
+  <div class="cover-tagline">Tradición y Especialidad</div>
+  <div class="cover-divider"></div>
+
+  <div class="cover-doc-title">
+    Círculo de Amigas
+    <em>Cata Compartida</em>
+  </div>
+  <div class="cover-subtitle">Guion de Facilitación · Barista como Facilitadora</div>
+  <div class="cover-meta">50 minutos · 1 V60 · 4–8 Personas</div>
+
+  <div class="cover-concept">
+    <div class="cover-concept-label">Concepto</div>
+    <div class="cover-concept-quote">
+      Un círculo de amigas que se conecta a través del café. Cuatro aromas que son cuatro palabras. Una taza que invita a hablar de lo que no siempre se dice. <em>El café como excusa para estar presentes.</em>
+    </div>
+  </div>
+
+  <div class="chips-row">
+    <span class="chip primary">50 min</span>
+    <span class="chip secondary">V60 · 4–8 personas</span>
+    <span class="chip rose">Formato Sororidad</span>
+    <span class="chip secondary">4 frascos aromáticos</span>
+  </div>
+
+  <p class="cover-intro">
+    La barista facilita sin imponer. Los aromas abren la conversación. Las tarjetas guía dan estructura sin rigidez. El café es el hilo que une el círculo.
+  </p>
+
+  <div class="cover-footer">
+    TINTO · Tradición y Especialidad · Círculo de Amigas
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PÁGINA 2 · CRONOGRAMA + APERTURA + FASE 1
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="brand">TINTO</span>
+    <span class="doc-id">Círculo de Amigas · Pág. 2</span>
+  </div>
+
+  <h2 class="section-title">Cronograma General — 50 Minutos</h2>
+
+  <table class="schedule-table">
+    <thead>
+      <tr>
+        <th>Momento</th>
+        <th>Contenido</th>
+        <th>Tiempo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="phase-num">Apertura</span></td>
+        <td>Bienvenida y encuadre del círculo</td>
+        <td><span class="time-badge">5 min</span></td>
+      </tr>
+      <tr>
+        <td><span class="phase-num">F 1</span></td>
+        <td>Los 4 aromas — exploración libre</td>
+        <td><span class="time-badge">8 min</span></td>
+      </tr>
+      <tr>
+        <td><span class="phase-num">F 2</span></td>
+        <td>Preparación V60 en vivo</td>
+        <td><span class="time-badge">7 min</span></td>
+      </tr>
+      <tr>
+        <td><span class="phase-num">F 3</span></td>
+        <td>Primera cata — impresiones en silencio</td>
+        <td><span class="time-badge">5 min</span></td>
+      </tr>
+      <tr>
+        <td><span class="phase-num">F 4</span></td>
+        <td>Tarjetas guía — ronda de conversación</td>
+        <td><span class="time-badge">15 min</span></td>
+      </tr>
+      <tr>
+        <td><span class="phase-num">F 5</span></td>
+        <td>Asociación libre — una palabra por persona</td>
+        <td><span class="time-badge">6 min</span></td>
+      </tr>
+      <tr>
+        <td><span class="phase-num">Cierre</span></td>
+        <td>Cierre del círculo</td>
+        <td><span class="time-badge">4 min</span></td>
+      </tr>
+      <tr class="total-row">
+        <td colspan="2">Total</td>
+        <td>~50 min</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── APERTURA ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge rose">Apertura</span>
+      <span class="fase-title">Bienvenida y encuadre del círculo</span>
+      <span class="fase-time">5 min</span>
+    </div>
+    <div class="fase-body">
+      <div class="script-box">
+        "Bienvenidas. Hoy no venimos a aprender sobre café — venimos a escucharnos a través de él. El café es honesto: no miente sobre lo que tiene adentro. Este es un círculo. Lo que se comparta acá, queda acá. No hay respuesta correcta. Solo presencia."
+      </div>
+      <ul class="steps">
+        <li>Distribuir a cada persona su tarjeta guía y una lapicera.</li>
+        <li>Colocar los 4 frascos cerrados en el centro, sin nombrarlos todavía.</li>
+        <li>Invitar a que cada una diga cómo llegó hoy — solo una palabra.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── FASE 1 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">F 1</span>
+      <span class="fase-title">Los 4 aromas — exploración libre</span>
+      <span class="fase-time">8 min</span>
+    </div>
+    <div class="fase-body">
+      <p class="section-label">Los frascos · 4 aromas, 4 palabras</p>
+      <div class="frascos-grid">
+        <div class="frasco">
+          <div class="frasco-num">Frasco 1</div>
+          <div class="frasco-name">Ternura</div>
+          <div class="frasco-detail">Floral · Jazmín y azahar</div>
+          <div class="frasco-metafora">"Lo que nos cuida sin que lo pidamos"</div>
+        </div>
+        <div class="frasco">
+          <div class="frasco-num">Frasco 2</div>
+          <div class="frasco-name">Valentía</div>
+          <div class="frasco-detail">Especias · Pimienta rosa y canela</div>
+          <div class="frasco-metafora">"Lo que nos hace atrevernos juntas"</div>
+        </div>
+        <div class="frasco">
+          <div class="frasco-num">Frasco 3</div>
+          <div class="frasco-name">Raíz</div>
+          <div class="frasco-detail">Cacao · Cacao y madera húmeda</div>
+          <div class="frasco-metafora">"Lo que nos sostiene aunque cambie todo"</div>
+        </div>
+        <div class="frasco">
+          <div class="frasco-num">Frasco 4</div>
+          <div class="frasco-name">Luz</div>
+          <div class="frasco-detail">Cítrico · Naranja y bergamota</div>
+          <div class="frasco-metafora">"Lo que brilla cuando estamos juntas"</div>
+        </div>
+      </div>
+      <div class="script-box">
+        "Abran el primero. Solo huélanlo. Sin palabras todavía. Dejen que llegue. Ahora el segundo. Después el tercero. El cuarto. No hay orden correcto — vayan como quieran."
+      </div>
+      <ul class="steps">
+        <li>Dejar circular los frascos en silencio. La barista no interviene.</li>
+        <li>Después de que todas hayan olido los cuatro, preguntar: <em>¿Alguna quiere compartir qué le evocó alguno?</em></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>TINTO — Círculo de Amigas · Cata Compartida</span>
+    <span>Pág. 2 / 4</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PÁGINA 3 · FASES 2, 3 y 4
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="brand">TINTO</span>
+    <span class="doc-id">Círculo de Amigas · Pág. 3</span>
+  </div>
+
+  <!-- ── FASE 2 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">F 2</span>
+      <span class="fase-title">Preparación V60 en vivo</span>
+      <span class="fase-time">7 min</span>
+    </div>
+    <div class="fase-body">
+      <p class="section-label">Parámetros de preparación · V60 · hasta 6 personas</p>
+      <div class="params-grid">
+        <div class="param"><span class="param-label">Café</span><span class="param-value">30 g</span></div>
+        <div class="param"><span class="param-label">Agua</span><span class="param-value">480 ml</span></div>
+        <div class="param"><span class="param-label">Relación</span><span class="param-value">1:16</span></div>
+        <div class="param"><span class="param-label">Temperatura</span><span class="param-value">92 °C</span></div>
+        <div class="param"><span class="param-label">Molienda</span><span class="param-value">Medio-fina</span></div>
+        <div class="param"><span class="param-label">Bloom</span><span class="param-value">60 ml / 30 s</span></div>
+        <div class="param"><span class="param-label">Rinde</span><span class="param-value">~400 ml</span></div>
+        <div class="param"><span class="param-label">Porciones</span><span class="param-value">5–6 tazas</span></div>
+      </div>
+      <p class="note-small">Escalado 7–8 personas: 2 V60 paralelos · 35 g × 2 / 560 ml × 2 → ~960 ml → 8 tazas.</p>
+
+      <p class="section-label">Protocolo paso a paso</p>
+      <div class="v60-steps">
+        <span class="v60-time">0:00</span><span class="v60-desc">Precalentar V60 y tazas. Agregar café molido, nivelar.</span>
+        <span class="v60-time">0:30</span><span class="v60-desc">Bloom: 60 ml en espiral. Remover suave. Esperar 30 segundos.</span>
+        <span class="v60-time">1:00</span><span class="v60-desc">Verter hasta 240 ml en círculos lentos, sin prisa.</span>
+        <span class="v60-time">1:45</span><span class="v60-desc">Completar hasta 480 ml. Terminar en el centro.</span>
+        <span class="v60-time">3:30</span><span class="v60-desc">Drenado completo. Retirar el V60. Servir de inmediato.</span>
+      </div>
+
+      <div class="script-box">
+        "Observen mientras preparo. El café primero respira — a eso le decimos bloom, el primer contacto con el agua. Libera lo que tiene adentro. Nosotras también hacemos eso cuando llegamos a un círculo: soltamos el día. Después el vertido, despacio, en círculos. El café pide lo mismo que una buena conversación: presencia."
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FASE 3 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">F 3</span>
+      <span class="fase-title">Primera cata — impresiones en silencio</span>
+      <span class="fase-time">5 min</span>
+    </div>
+    <div class="fase-body">
+      <div class="script-box">
+        "Antes de que digan nada — silencio. Un sorbo. Dejen que llegue. ¿Qué sienten primero? ¿Dónde lo sienten — en la punta de la lengua, en el fondo, en algún recuerdo? No hay respuesta correcta. El café no juzga."
+      </div>
+      <ul class="steps">
+        <li>Servir el café. Esperar a que todas tengan su taza en mano.</li>
+        <li>Un minuto en silencio completo. La barista no habla.</li>
+        <li>Preguntar: <em>¿Alguien quiere decir una sola palabra sobre lo que acaba de sentir?</em></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── FASE 4 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge rose">F 4</span>
+      <span class="fase-title">Tarjetas guía — ronda de conversación</span>
+      <span class="fase-time">15 min</span>
+    </div>
+    <div class="fase-body">
+      <div class="script-box">
+        "Miren la tarjeta. Hay cuatro preguntas. Vamos de a una. Empieza quien quiera — no hay orden. El círculo escucha. Sin interrumpir, sin dar consejo. Solo estar."
+      </div>
+      <ul class="steps">
+        <li>Guiar pregunta por pregunta, sin apurar. Leer cada una en voz alta.</li>
+        <li>Si hay silencio, dejarlo. El silencio también es parte del círculo.</li>
+        <li>La barista no opina — solo facilita y sostiene el espacio.</li>
+        <li>Si el grupo se abre y el tiempo se extiende, está bien. Esta fase puede durar hasta 20 min.</li>
+      </ul>
+      <div class="tip">Las tarjetas se llevan al final como recuerdo. No se recopilan.</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>TINTO — Círculo de Amigas · Cata Compartida</span>
+    <span>Pág. 3 / 4</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PÁGINA 4 · FASES 5, CIERRE + CHECKLIST
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="brand">TINTO</span>
+    <span class="doc-id">Círculo de Amigas · Pág. 4</span>
+  </div>
+
+  <!-- ── FASE 5 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">F 5</span>
+      <span class="fase-title">Asociación libre — una palabra por persona</span>
+      <span class="fase-time">6 min</span>
+    </div>
+    <div class="fase-body">
+      <div class="script-box">
+        "Una última cosa. De los cuatro aromas que olimos — ternura, valentía, raíz, luz — ¿cuál describe mejor a este círculo hoy? Una sola palabra. No hay que explicarla."
+      </div>
+      <ul class="steps">
+        <li>Ronda rápida: cada una dice su palabra sin elaborar.</li>
+        <li>La barista puede cerrar diciendo la suya también.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── CIERRE ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge rose">Cierre</span>
+      <span class="fase-title">Cierre del círculo</span>
+      <span class="fase-time">4 min</span>
+    </div>
+    <div class="fase-body">
+      <div class="script-box">
+        "Gracias. Vinieron con sus cosas, con sus días, con todo lo que cargamos. Y lo dejaron un momento acá. El café ya está frío — eso significa que estuvimos presentes. Se llevan la tarjeta. Y se llevan esto."
+      </div>
+      <ul class="steps">
+        <li>Invitar a que cada una tome el frasco que más le resonó como recuerdo.</li>
+        <li>Momento libre: terminar las tazas, conversar sin estructura.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-title" style="margin-top: 1.1rem">Checklist de Materiales</h2>
+
+  <div class="checklist-group">
+    <div class="checklist-group-title">Café y preparación</div>
+    <ul class="checklist">
+      <li>Café de especialidad · 30 g (+ reserva para 2° V60)</li>
+      <li>V60 + filtros de papel (×2 disponibles)</li>
+      <li>Kettle con temperatura regulable</li>
+      <li>Báscula de precisión</li>
+      <li>Servidor / jarra de vidrio</li>
+      <li>Tazas o vasos de vidrio (8)</li>
+    </ul>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-group-title">Experiencia</div>
+    <ul class="checklist">
+      <li>4 frascos aromáticos etiquetados</li>
+      <li>Tarjetas guía impresas (1 por invitada)</li>
+      <li>Lapiceras (1 por persona)</li>
+      <li>Mesa central despejada</li>
+      <li>Ambientación sonora lista</li>
+      <li>Este guion en pantalla</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>TINTO — Círculo de Amigas · Cata Compartida</span>
+    <span>Pág. 4 / 4</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     TARJETAS GUÍA — 2 por hoja A4 (solo impresión)
+══════════════════════════════════════════════ -->
+<div class="tarjetas-page">
+
+  <!-- TARJETA 1 -->
+  <div class="t-half">
+    <span class="t-ornament tr">✦</span>
+    <div class="t-logo">TINTO</div>
+    <div class="t-label">Tarjeta Guía · Círculo de Amigas</div>
+    <div class="t-divider"></div>
+    <div class="t-questions">
+      <div class="t-question">
+        <div class="t-q-label">01 — Los aromas</div>
+        <div class="t-q-text">¿Qué frasco de hoy te recuerda a algo que vivieron juntas?</div>
+        <div class="t-write-line"></div>
+        <div class="t-write-line"></div>
+      </div>
+      <div class="t-question">
+        <div class="t-q-label">02 — El círculo</div>
+        <div class="t-q-text">¿Qué cualidad — ternura, valentía, raíz o luz — ves en alguien de este círculo?</div>
+        <div class="t-write-line"></div>
+        <div class="t-write-line"></div>
+      </div>
+      <div class="t-question">
+        <div class="t-q-label">03 — La taza</div>
+        <div class="t-q-text">¿Con qué sabor o aroma describirías este momento con ellas?</div>
+        <div class="t-write-line"></div>
+        <div class="t-write-line"></div>
+      </div>
+      <div class="t-question">
+        <div class="t-q-label">04 — Para llevar</div>
+        <div class="t-q-text">¿Qué te llevas de este círculo hoy?</div>
+        <div class="t-write-line"></div>
+        <div class="t-write-line"></div>
+      </div>
+    </div>
+    <div class="t-footer">TINTO · Círculo de Amigas · Cata Compartida</div>
+    <span class="t-ornament bl">✦</span>
+  </div>
+
+  <!-- TARJETA 2 (copia) -->
+  <div class="t-half">
+    <span class="t-ornament tr">✦</span>
+    <div class="t-logo">TINTO</div>
+    <div class="t-label">Tarjeta Guía · Círculo de Amigas</div>
+    <div class="t-divider"></div>
+    <div class="t-questions">
+      <div class="t-question">
+        <div class="t-q-label">01 — Los aromas</div>
+        <div class="t-q-text">¿Qué frasco de hoy te recuerda a algo que vivieron juntas?</div>
+        <div class="t-write-line"></div>
+        <div class="t-write-line"></div>
+      </div>
+      <div class="t-question">
+        <div class="t-q-label">02 — El círculo</div>
+        <div class="t-q-text">¿Qué cualidad — ternura, valentía, raíz o luz — ves en alguien de este círculo?</div>
+        <div class="t-write-line"></div>
+        <div class="t-write-line"></div>
+      </div>
+      <div class="t-question">
+        <div class="t-q-label">03 — La taza</div>
+        <div class="t-q-text">¿Con qué sabor o aroma describirías este momento con ellas?</div>
+        <div class="t-write-line"></div>
+        <div class="t-write-line"></div>
+      </div>
+      <div class="t-question">
+        <div class="t-q-label">04 — Para llevar</div>
+        <div class="t-q-text">¿Qué te llevas de este círculo hoy?</div>
+        <div class="t-write-line"></div>
+        <div class="t-write-line"></div>
+      </div>
+    </div>
+    <div class="t-footer">TINTO · Círculo de Amigas · Cata Compartida</div>
+    <span class="t-ornament bl">✦</span>
+  </div>
+
+</div>
+
+</body>
+</html>

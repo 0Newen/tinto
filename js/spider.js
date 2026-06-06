@@ -1,9 +1,14 @@
 /**
  * Spider / Radar chart — draws an animated SCA score chart on a canvas.
- * Reads from globalThis.PROFILE_DATA.scores
+ * Reads from globalThis.PROFILE_DATA.scores and CSS accent tokens
+ * (--accent, --accent-soft, --accent-glow) so the chart re-themes per profile.
  */
 globalThis.drawSpiderChart = function drawSpiderChart(canvas) {
   const DATA = globalThis.PROFILE_DATA;
+  const css = getComputedStyle(document.documentElement);
+  const ACCENT      = (css.getPropertyValue('--accent').trim() || '#688F4E');
+  const ACCENT_SOFT = (css.getPropertyValue('--accent-soft').trim() || 'rgba(104,143,78,0.25)');
+  const ACCENT_GLOW = (css.getPropertyValue('--accent-glow').trim() || '#B1D182');
   const w = globalThis.innerWidth;
   const h = globalThis.innerHeight;
   const isLandscapePhone = h <= 450 && w > h;
@@ -75,9 +80,13 @@ globalThis.drawSpiderChart = function drawSpiderChart(canvas) {
         : ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
     }
     ctx.closePath();
-    ctx.fillStyle = 'rgba(104,143,78,' + (0.25 * t) + ')';
+    ctx.fillStyle = ACCENT_SOFT;
+    // Apply animation alpha multiplicatively via globalAlpha
+    const prevAlpha = ctx.globalAlpha;
+    ctx.globalAlpha = prevAlpha * t;
     ctx.fill();
-    ctx.strokeStyle = '#688F4E';
+    ctx.globalAlpha = prevAlpha;
+    ctx.strokeStyle = ACCENT;
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
@@ -90,12 +99,14 @@ globalThis.drawSpiderChart = function drawSpiderChart(canvas) {
       // Glow
       ctx.beginPath();
       ctx.arc(dx, dy, 6, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(177,209,130,' + (0.25 * t) + ')';
+      ctx.fillStyle = ACCENT_SOFT;
+      ctx.globalAlpha = t;
       ctx.fill();
+      ctx.globalAlpha = 1;
       // Dot
       ctx.beginPath();
       ctx.arc(dx, dy, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = '#B1D182';
+      ctx.fillStyle = ACCENT_GLOW;
       ctx.fill();
     }
 

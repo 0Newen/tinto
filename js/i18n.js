@@ -52,7 +52,7 @@
       phoneColombia: 'Colombia',
       phoneArgentina: 'Argentina',
 
-      // SCA score labels (keyed by original Spanish)
+      // SCA score labels (keyed by original Spanish, shared across profiles)
       'Aroma': 'Aroma',
       'Sabor': 'Sabor',
       'Acidez': 'Acidez',
@@ -62,24 +62,9 @@
       'Balance': 'Balance',
       'Uniformidad': 'Uniformidad',
 
-      // Chip labels (keyed by original Spanish)
-      'Caramelo': 'Caramelo',
-      'Avellanas': 'Avellanas',
-      'Naranja': 'Naranja',
-      'Tabaco Dulce': 'Tabaco Dulce',
-      'Frutal': 'Frutal',
-      'Jugoso': 'Jugoso',
-      'Brillante': 'Brillante',
-      'Sedoso': 'Sedoso',
-      'Almibarado': 'Almibarado',
-
-      // Quote
-      quote: '\u201CDulce caramelo, sedoso, avellanas \u2014 naranja y tabaco dulce en el final.\u201D',
-
-      // Data values that need translation
-      'Lavado': 'Lavado',
-      '1800 msnm': '1800 msnm',
-      '28 enero': '28 enero',
+      // Profile switcher
+      profileSwitchLabel: 'Perfil',
+      farmLabel: 'Finca',
     },
 
     en: {
@@ -127,7 +112,7 @@
       phoneColombia: 'Colombia',
       phoneArgentina: 'Argentina',
 
-      // SCA score labels
+      // SCA score labels (shared across profiles)
       'Aroma': 'Aroma',
       'Sabor': 'Flavor',
       'Acidez': 'Acidity',
@@ -137,24 +122,9 @@
       'Balance': 'Balance',
       'Uniformidad': 'Uniformity',
 
-      // Chip labels
-      'Caramelo': 'Caramel',
-      'Avellanas': 'Hazelnuts',
-      'Naranja': 'Orange',
-      'Tabaco Dulce': 'Sweet Tobacco',
-      'Frutal': 'Fruity',
-      'Jugoso': 'Juicy',
-      'Brillante': 'Bright',
-      'Sedoso': 'Silky',
-      'Almibarado': 'Syrupy',
-
-      // Quote
-      quote: '\u201CSweet caramel, silky, hazelnuts \u2014 orange and sweet tobacco in the finish.\u201D',
-
-      // Data values
-      'Lavado': 'Washed',
-      '1800 msnm': '1800 masl',
-      '28 enero': 'January 28',
+      // Profile switcher
+      profileSwitchLabel: 'Profile',
+      farmLabel: 'Farm',
     },
   };
 
@@ -210,6 +180,16 @@
     changeCallbacks.push(cb);
   }
 
+  /**
+   * Merge per-profile strings into the active dictionaries.
+   * Call with { es: {...}, en: {...} } whenever the active profile changes.
+   */
+  function registerProfileStrings(dict) {
+    if (!dict) return;
+    if (dict.es) Object.assign(translations.es, dict.es);
+    if (dict.en) Object.assign(translations.en, dict.en);
+  }
+
   // Apply initial lang on DOMContentLoaded
   function applyInitial() {
     document.documentElement.lang = currentLang;
@@ -241,5 +221,6 @@
     getLang: getLang,
     setLang: setLang,
     onLangChange: onLangChange,
+    registerProfileStrings: registerProfileStrings,
   };
 })();

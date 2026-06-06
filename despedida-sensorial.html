@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TINTO — "Toda historia de amor tiene aroma" · Despedida de Soltera</title>
+  <style>
+    /* ── Tokens de marca TINTO ── */
+    :root {
+      --ink:       #1a2e24;
+      --espresso:  #2B463C;
+      --brown:     #688F4E;
+      --cream:     #F4F1E9;
+      --cream2:    #e8ebdf;
+      --cream3:    #d4dbc8;
+      --gold:      #B1D182;
+      --rose:      #b07a91;
+      --rose-bg:   #f8f0f4;
+      --white:     #ffffff;
+      --gap:       1.6rem;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 11pt;
+      line-height: 1.65;
+    }
+
+    /* ══════════════════════════════
+       PRINT — guion en pantalla, tarjetas al imprimir
+    ══════════════════════════════ */
+    @media print {
+      .no-print  { display: none !important; }
+      .page      { display: none !important; }
+      .tarjetas-page { display: flex !important; }
+      @page      { size: A4; margin: 0; }
+      *          { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    /* ══════════════════════════════
+       PANTALLA — tarjetas flotantes
+    ══════════════════════════════ */
+    @media screen {
+      body { background: #d4d0c4; padding: 2rem 1rem; }
+      .page {
+        max-width: 820px;
+        padding: 2.8rem 3.8rem;
+        min-height: auto;
+        box-shadow: 0 4px 28px rgba(26,46,36,0.13), 0 1px 4px rgba(26,46,36,0.06);
+        border-radius: 6px;
+        margin: 0 auto 2.8rem;
+      }
+      .page.cover { padding: 3.5rem 3.8rem; }
+      .page-footer {
+        position: static;
+        margin-top: 2.5rem;
+        left: auto; right: auto; bottom: auto;
+      }
+      .tarjetas-page {
+        width: auto;
+        max-width: 640px;
+        height: auto;
+        padding: 1.5rem;
+        margin: 0 auto 2.8rem;
+        box-shadow: 0 4px 28px rgba(26,46,36,0.13);
+        border-radius: 6px;
+      }
+      .t-half { height: auto; min-height: 0; padding: 1.5rem 2rem; }
+    }
+
+    /* ══════════════════════════════
+       LAYOUT BASE
+    ══════════════════════════════ */
+    .page {
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 14mm 16mm;
+      min-height: 297mm;
+      position: relative;
+    }
+
+    /* ── PORTADA ── */
+    .cover {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 297mm;
+      gap: 1.1rem;
+      background: var(--cream);
+    }
+
+    .cover-logo {
+      font-family: 'Georgia', serif;
+      font-size: 52pt;
+      font-weight: bold;
+      letter-spacing: 0.18em;
+      color: var(--espresso);
+      line-height: 1;
+      border-bottom: 3px solid var(--brown);
+      padding-bottom: 0.3rem;
+    }
+
+    .cover-tagline {
+      font-size: 10pt;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--brown);
+    }
+
+    .cover-divider {
+      width: 60mm;
+      height: 2px;
+      background: var(--gold);
+      margin: 0.8rem auto;
+    }
+
+    .cover-doc-title {
+      font-size: 18pt;
+      font-weight: bold;
+      color: var(--espresso);
+      line-height: 1.25;
+    }
+
+    .cover-doc-title em {
+      display: block;
+      font-style: italic;
+      color: var(--rose);
+      font-size: 13pt;
+      font-weight: normal;
+      margin-top: 0.3rem;
+      letter-spacing: 0.04em;
+    }
+
+    .cover-subtitle {
+      font-size: 9.5pt;
+      color: #666;
+      letter-spacing: 0.1em;
+    }
+
+    .cover-meta {
+      font-size: 9pt;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brown);
+    }
+
+    .cover-concept {
+      background: var(--espresso);
+      color: var(--cream);
+      border-radius: 8px;
+      padding: 1.3rem 2rem;
+      text-align: left;
+      max-width: 140mm;
+      margin-top: 0.5rem;
+    }
+
+    .cover-concept-label {
+      font-size: 8pt;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.7rem;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .cover-concept-quote {
+      font-style: italic;
+      font-size: 10.5pt;
+      color: var(--cream);
+      line-height: 1.65;
+    }
+
+    .cover-concept-quote em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      margin-top: 0.4rem;
+    }
+
+    .chip {
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      font-size: 8pt;
+      letter-spacing: 0.08em;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .chip.primary   { background: var(--gold);   color: var(--espresso); font-weight: bold; }
+    .chip.secondary { background: transparent;   border: 1px solid var(--brown); color: var(--brown); }
+    .chip.rose      { background: var(--rose-bg); border: 1px solid var(--rose);  color: var(--rose); }
+
+    .cover-intro {
+      max-width: 130mm;
+      font-size: 9.5pt;
+      color: #555;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .cover-footer {
+      margin-top: auto;
+      padding-top: 1.5rem;
+      font-size: 8pt;
+      color: #888;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── PÁGINAS INTERNAS ── */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--espresso);
+      margin-bottom: 1.4rem;
+    }
+
+    .page-header .brand {
+      font-size: 11pt;
+      font-weight: bold;
+      letter-spacing: 0.18em;
+      color: var(--espresso);
+    }
+
+    .page-header .doc-id {
+      font-size: 8pt;
+      color: #777;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── CRONOGRAMA ── */
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.4rem;
+    }
+
+    .schedule-table th {
+      background: var(--espresso);
+      color: var(--gold);
+      padding: 0.45rem 0.7rem;
+      text-align: left;
+      font-size: 8pt;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .schedule-table td {
+      padding: 0.4rem 0.7rem;
+      border-bottom: 1px solid var(--cream3);
+      font-size: 9.5pt;
+      vertical-align: middle;
+    }
+
+    .schedule-table tr:nth-child(even) td { background: var(--cream2); }
+
+    .schedule-table .phase-num {
+      color: var(--brown);
+      font-weight: bold;
+      white-space: nowrap;
+      font-size: 9pt;
+    }
+
+    .schedule-table .time-badge {
+      background: var(--gold);
+      color: var(--espresso);
+      font-size: 8pt;
+      font-weight: bold;
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .schedule-table .v60-action {
+      font-size: 8.5pt;
+      color: var(--brown);
+      font-style: italic;
+    }
+
+    .total-row td {
+      background: var(--espresso) !important;
+      color: var(--gold);
+      font-weight: bold;
+      font-size: 9.5pt;
+    }
+
+    /* ── FASES ── */
+    .fase {
+      margin-bottom: 1.5rem;
+      break-inside: avoid;
+    }
+
+    .fase-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .fase-badge {
+      background: var(--espresso);
+      color: var(--gold);
+      font-size: 8pt;
+      font-weight: bold;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .fase-badge.rose {
+      background: var(--rose);
+      color: var(--white);
+    }
+
+    .fase-title {
+      font-size: 13pt;
+      font-weight: bold;
+      color: var(--espresso);
+    }
+
+    .fase-time {
+      margin-left: auto;
+      font-size: 8pt;
+      color: var(--brown);
+      letter-spacing: 0.1em;
+      font-family: 'Arial', sans-serif;
+      white-space: nowrap;
+    }
+
+    .fase-body {
+      border-left: 3px solid var(--gold);
+      padding-left: 1rem;
+    }
+
+    .fase-body > p { margin-bottom: 0.45rem; }
+
+    .section-label {
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--brown);
+      font-weight: bold;
+      margin-top: 0.75rem;
+      margin-bottom: 0.3rem;
+      font-family: 'Arial', sans-serif;
+    }
+
+    ul.steps { list-style: none; padding: 0; }
+
+    ul.steps li {
+      padding: 0.22rem 0 0.22rem 1.4rem;
+      position: relative;
+      font-size: 10.5pt;
+    }
+
+    ul.steps li::before {
+      content: '▸';
+      color: var(--brown);
+      position: absolute;
+      left: 0;
+      top: 0.22rem;
+      font-size: 9pt;
+    }
+
+    /* ── Tip ── */
+    .tip {
+      background: var(--cream2);
+      border-left: 3px solid var(--brown);
+      border-radius: 0 4px 4px 0;
+      padding: 0.45rem 0.8rem;
+      margin-top: 0.65rem;
+      font-size: 9.5pt;
+      font-style: italic;
+      color: var(--espresso);
+    }
+
+    .tip::before {
+      content: '💡 TIP: ';
+      font-style: normal;
+      font-weight: bold;
+      color: var(--brown);
+      font-family: 'Arial', sans-serif;
+      font-size: 8.5pt;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Script (barista habla en voz alta) ── */
+    .script-box {
+      background: var(--espresso);
+      color: var(--cream);
+      border-radius: 5px;
+      padding: 0.65rem 1rem;
+      margin: 0.55rem 0;
+      font-style: italic;
+      font-size: 10pt;
+      line-height: 1.65;
+    }
+
+    .script-box::before {
+      content: '🎙 NARRADOR: ';
+      font-style: normal;
+      font-weight: bold;
+      color: var(--gold);
+      font-family: 'Arial', sans-serif;
+      font-size: 8.5pt;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Verso (texto poético formateado) ── */
+    .verso-box {
+      background: var(--cream2);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 5px 5px 0;
+      padding: 0.9rem 1.2rem;
+      margin: 0.55rem 0;
+      font-style: italic;
+      font-size: 10.5pt;
+      line-height: 1.85;
+      color: var(--espresso);
+    }
+
+    .verso-box p { margin-bottom: 0.55rem; }
+    .verso-box p:last-child { margin-bottom: 0; }
+
+    /* ── Dinámica ── */
+    .dinamica-box {
+      background: var(--rose-bg);
+      border: 1px solid rgba(176, 122, 145, 0.4);
+      border-radius: 5px;
+      padding: 0.6rem 1rem;
+      margin: 0.55rem 0;
+    }
+
+    .dinamica-box::before {
+      content: '✦ DINÁMICA: ';
+      font-weight: bold;
+      color: var(--rose);
+      font-family: 'Arial', sans-serif;
+      font-size: 8.5pt;
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .dinamica-box ul { list-style: none; padding: 0; }
+
+    .dinamica-box ul li {
+      padding: 0.18rem 0 0.18rem 1.2rem;
+      position: relative;
+      font-size: 10pt;
+    }
+
+    .dinamica-box ul li::before {
+      content: '○';
+      color: var(--rose);
+      position: absolute;
+      left: 0;
+      font-size: 9pt;
+    }
+
+    /* ── Frascos de aroma ── */
+    .frascos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.55rem;
+      margin: 0.7rem 0;
+    }
+
+    .frasco {
+      background: var(--white);
+      border: 1px solid var(--cream3);
+      border-radius: 6px;
+      padding: 0.55rem 0.7rem;
+    }
+
+    .frasco-num {
+      font-size: 16pt;
+      font-weight: bold;
+      color: var(--espresso);
+      line-height: 1;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .frasco-name {
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: var(--espresso);
+      margin: 0.2rem 0 0.12rem;
+    }
+
+    .frasco-detail { font-size: 8pt; color: #777; }
+
+    .frasco-metafora {
+      font-size: 8pt;
+      color: var(--rose);
+      margin-top: 0.25rem;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    /* ── Parámetros V60 ── */
+    .params-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.45rem;
+      margin: 0.7rem 0;
+    }
+
+    .param {
+      background: var(--espresso);
+      color: var(--cream);
+      border-radius: 5px;
+      padding: 0.45rem 0.55rem;
+      text-align: center;
+    }
+
+    .param-label {
+      font-size: 7pt;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: 'Arial', sans-serif;
+      display: block;
+    }
+
+    .param-value {
+      font-size: 12pt;
+      font-weight: bold;
+      color: var(--white);
+      line-height: 1.2;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* ── Timeline V60 ── */
+    .v60-steps {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.25rem 0.8rem;
+      margin: 0.7rem 0;
+      align-items: start;
+    }
+
+    .v60-time {
+      background: var(--gold);
+      color: var(--espresso);
+      font-weight: bold;
+      font-size: 8pt;
+      padding: 0.18rem 0.5rem;
+      border-radius: 3px;
+      font-family: 'Arial', sans-serif;
+      white-space: nowrap;
+      text-align: center;
+      align-self: start;
+      margin-top: 0.1rem;
+    }
+
+    .v60-desc { font-size: 10pt; }
+
+    /* ── Frases intercaladas ── */
+    .frases-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+      margin: 0.7rem 0;
+    }
+
+    .frase-item {
+      background: var(--espresso);
+      color: var(--gold);
+      border-radius: 4px;
+      padding: 0.5rem 0.7rem;
+      font-size: 9pt;
+      font-style: italic;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    /* ── Checklist ── */
+    .checklist-group { margin-bottom: 1.1rem; break-inside: avoid; }
+
+    .checklist-group-title {
+      font-size: 9pt;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--brown);
+      font-weight: bold;
+      margin-bottom: 0.45rem;
+      font-family: 'Arial', sans-serif;
+      border-bottom: 1px solid var(--cream3);
+      padding-bottom: 0.2rem;
+    }
+
+    .checklist { list-style: none; columns: 2; column-gap: 1.5rem; }
+
+    .checklist li {
+      padding: 0.25rem 0 0.25rem 1.4rem;
+      position: relative;
+      font-size: 10pt;
+      break-inside: avoid;
+    }
+
+    .checklist li::before {
+      content: '☐';
+      position: absolute;
+      left: 0;
+      color: var(--espresso);
+      font-size: 11pt;
+    }
+
+    /* ── Logística ── */
+    .logistica-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      margin-top: 0.8rem;
+    }
+
+    .log-item {
+      background: var(--cream2);
+      border-radius: 5px;
+      padding: 0.65rem 0.8rem;
+      font-size: 9.5pt;
+    }
+
+    .log-item strong {
+      display: block;
+      color: var(--espresso);
+      font-size: 8.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.25rem;
+    }
+
+    /* ── Helpers ── */
+    h2.section-title {
+      font-size: 12pt;
+      color: var(--espresso);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .note-small {
+      font-size: 8.5pt;
+      color: #777;
+      font-style: italic;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ── Page footer ── */
+    .page-footer {
+      position: absolute;
+      bottom: 10mm;
+      left: 16mm;
+      right: 16mm;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #aaa;
+      border-top: 1px solid var(--cream3);
+      padding-top: 0.3rem;
+    }
+
+    /* ── Botón imprimir ── */
+    .no-print {
+      text-align: center;
+      padding: 1rem;
+      background: var(--espresso);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .no-print button {
+      background: var(--gold);
+      color: var(--espresso);
+      border: none;
+      padding: 0.55rem 1.8rem;
+      font-size: 10.5pt;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+    }
+
+    .no-print small { color: rgba(244,241,233,0.65); font-size: 9pt; }
+
+    /* ── Escritura (momentos de reflexión personal enfocada en la novia) ── */
+    .escritura-box {
+      border-left: 3px solid var(--rose);
+      background: var(--rose-bg);
+      border-radius: 0 5px 5px 0;
+      padding: 0.6rem 1rem;
+      margin: 0.55rem 0;
+    }
+
+    .escritura-label {
+      font-size: 8pt;
+      font-family: 'Arial', sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--rose);
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+
+    .escritura-box p {
+      font-size: 10pt;
+      font-style: italic;
+      color: var(--espresso);
+      line-height: 1.65;
+    }
+
+    /* ── Perfil del café (portada) ── */
+    .cover-coffee {
+      background: var(--espresso);
+      color: var(--cream);
+      border-radius: 6px;
+      padding: 0.9rem 1.6rem;
+      text-align: left;
+      max-width: 130mm;
+      margin-top: 0.8rem;
+    }
+
+    .cover-coffee-label {
+      font-size: 8pt;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .cover-coffee-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.2rem 1.5rem;
+      font-size: 9pt;
+    }
+
+    .cover-coffee-item label {
+      color: var(--gold);
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      display: block;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .cover-coffee-item span { color: var(--cream); }
+
+    .cover-coffee-notes {
+      margin-top: 0.6rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(177,209,130,0.2);
+      font-size: 9pt;
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* ══════════════════════════════════════════════
+       TARJETAS DE DESEOS — 2 por hoja A4 (solo impresión)
+    ══════════════════════════════════════════════ */
+    .tarjetas-page {
+      width: 210mm;
+      height: 297mm;
+      margin: 0 auto;
+      padding: 0;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .t-half {
+      width: 100%;
+      height: 148.5mm;
+      box-sizing: border-box;
+      padding: 6mm 11mm 5mm;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: #fefefe;
+    }
+
+    /* Ornamentos de esquina */
+    .t-half::before, .t-half::after {
+      content: '';
+      position: absolute;
+      width: 7mm;
+      height: 7mm;
+      opacity: 0.5;
+    }
+
+    .t-half::before {
+      top: 4mm;
+      left: 8mm;
+      border-top: 0.7pt solid var(--gold);
+      border-left: 0.7pt solid var(--gold);
+    }
+
+    .t-half::after {
+      bottom: 4mm;
+      right: 8mm;
+      border-bottom: 0.7pt solid var(--rose);
+      border-right: 0.7pt solid var(--rose);
+    }
+
+    .t-half + .t-half { border-top: 1px dashed #c8c8c8; }
+
+    .t-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1.5pt solid var(--espresso);
+      padding-bottom: 1.5mm;
+      margin-bottom: 2.5mm;
+      padding-top: 1.5mm;
+    }
+
+    .t-brand {
+      font-family: 'Georgia', serif;
+      font-size: 14pt;
+      font-weight: bold;
+      letter-spacing: 0.16em;
+      color: var(--espresso);
+      line-height: 1;
+    }
+
+    .t-event-label {
+      font-size: 6.5pt;
+      color: var(--rose);
+      letter-spacing: 0.1em;
+      text-align: right;
+      line-height: 1.5;
+      font-family: 'Arial', sans-serif;
+      text-transform: uppercase;
+    }
+
+    .t-from-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3mm;
+      margin-bottom: 1.5mm;
+    }
+
+    .t-from-field {
+      display: flex;
+      align-items: flex-end;
+      gap: 2mm;
+    }
+
+    .t-from-label {
+      font-size: 7pt;
+      color: #aaa;
+      font-family: 'Arial', sans-serif;
+      white-space: nowrap;
+    }
+
+    .t-from-line {
+      flex: 1;
+      border-bottom: 0.4pt solid var(--cream3);
+      min-height: 10px;
+    }
+
+    .t-divider {
+      text-align: center;
+      color: var(--gold);
+      font-size: 9pt;
+      letter-spacing: 0.35em;
+      margin: 1.5mm 0 2mm;
+      opacity: 0.8;
+    }
+
+    .t-section { margin-bottom: 1.5mm; }
+
+    .t-section-label {
+      font-size: 6.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--brown);
+      font-family: 'Arial', sans-serif;
+      margin-bottom: 1.5mm;
+      display: flex;
+      align-items: center;
+      gap: 1.5mm;
+    }
+
+    .t-section-label::before {
+      content: '✦';
+      color: var(--rose);
+      font-size: 7pt;
+      flex-shrink: 0;
+    }
+
+    .t-write-line {
+      border-bottom: 0.4pt solid #d4d4c8;
+      margin-bottom: 4mm;
+      min-height: 9px;
+    }
+
+    .t-write-line.sm { margin-bottom: 3.3mm; }
+
+    .t-quote {
+      margin-top: auto;
+      padding-top: 2mm;
+      font-size: 6.5pt;
+      color: #c0b8b0;
+      font-style: italic;
+      font-family: 'Georgia', serif;
+      text-align: center;
+      line-height: 1.55;
+      border-top: 0.4pt solid #e8e4dc;
+    }
+
+    .t-footer {
+      padding-top: 1.5mm;
+      margin-top: 1.5mm;
+      font-size: 6.5pt;
+      color: #ccc;
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Arial', sans-serif;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  function printTarjetas() { window.print(); }
+</script>
+
+<!-- ── BOTÓN IMPRIMIR ── -->
+<div class="no-print">
+  <button onclick="printTarjetas()">🖨 Imprimir Tarjetas de Deseos</button>
+  <small>El guion se usa en pantalla durante el evento · Imprime las tarjetas por separado (1 por invitada, 2 por hoja)</small>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PÁGINA 1 · PORTADA
+══════════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-logo">TINTO</div>
+  <div class="cover-tagline">Tradición y Especialidad</div>
+  <div class="cover-divider"></div>
+
+  <div class="cover-doc-title">
+    "Toda historia de amor tiene aroma"
+    <em>Experiencia Sensorial · Despedida de Soltera</em>
+  </div>
+  <div class="cover-subtitle">Guion de Narración · Barista como Narrador</div>
+  <div class="cover-meta">45 minutos · 1 V60 · Grupo íntimo</div>
+
+  <div class="cover-concept">
+    <div class="cover-concept-label">El Concepto</div>
+    <div class="cover-concept-quote">
+      "El café cambia según el agua, el tiempo,<br>
+      la temperatura y las manos que lo preparan.<br>
+      <em>El amor también.</em>"
+    </div>
+  </div>
+
+  <div class="chips-row">
+    <span class="chip primary">Íntimo</span>
+    <span class="chip primary">Ceremonial</span>
+    <span class="chip rose">Emocional</span>
+    <span class="chip secondary">Narrativo</span>
+    <span class="chip secondary">Ritual</span>
+    <span class="chip secondary">Sensorial</span>
+  </div>
+
+  <p class="cover-intro">
+    En esta experiencia el café no es el protagonista — es el lenguaje con el que contamos la historia de la novia. Cada fase de la preparación V60 activa un sentido, revela una parte de su historia y abre espacio para que sus amigas escriban.
+  </p>
+
+  <div class="cover-coffee">
+    <div class="cover-coffee-label">Café de la Noche</div>
+    <div class="cover-coffee-grid">
+      <div class="cover-coffee-item"><label>Caficultor</label><span>Liliana Cárdenas</span></div>
+      <div class="cover-coffee-item"><label>Región</label><span>Boyacá, San José</span></div>
+      <div class="cover-coffee-item"><label>Variedad</label><span>Castillo</span></div>
+      <div class="cover-coffee-item"><label>Altura</label><span>1600 msnm</span></div>
+      <div class="cover-coffee-item"><label>Beneficio</label><span>Lavado · Finca Santamaría</span></div>
+      <div class="cover-coffee-item"><label>Puntaje SCA</label><span>84.50 pts</span></div>
+    </div>
+    <div class="cover-coffee-notes">Frutal · Floral · Cacao · Especias Marrones · Caña Azúcar</div>
+  </div>
+
+  <div class="cover-footer">
+    @tintocafe25 · tintocafe25@gmail.com
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PÁGINA 2 · CRONOGRAMA + APERTURA + FASE 1
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="brand">TINTO — DESPEDIDA SENSORIAL</span>
+    <span class="doc-id">Guion de Narración · Pág. 2/5</span>
+  </div>
+
+  <h2 class="section-title">Cronograma General — 45 Minutos</h2>
+
+  <table class="schedule-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Momento</th>
+        <th>Acción V60</th>
+        <th>Min</th>
+        <th>Duración</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="phase-num">0</td>
+        <td>Apertura — Bienvenida</td>
+        <td class="v60-action">—</td>
+        <td>0:00</td>
+        <td><span class="time-badge">3 min</span></td>
+      </tr>
+      <tr>
+        <td class="phase-num">F1</td>
+        <td>El Primer Aroma</td>
+        <td class="v60-action">Frascos circulan</td>
+        <td>3:00</td>
+        <td><span class="time-badge">8 min</span></td>
+      </tr>
+      <tr>
+        <td class="phase-num">F2</td>
+        <td>La Molienda</td>
+        <td class="v60-action">Moler café en vivo</td>
+        <td>11:00</td>
+        <td><span class="time-badge">4 min</span></td>
+      </tr>
+      <tr>
+        <td class="phase-num">F3</td>
+        <td>El Agua · La Paciencia</td>
+        <td class="v60-action">Calentar agua · enjuagar filtro</td>
+        <td>15:00</td>
+        <td><span class="time-badge">4 min</span></td>
+      </tr>
+      <tr>
+        <td class="phase-num">F4</td>
+        <td>El Bloom</td>
+        <td class="v60-action">Bloom 50 ml + 30 seg reposo</td>
+        <td>19:00</td>
+        <td><span class="time-badge">4 min</span></td>
+      </tr>
+      <tr>
+        <td class="phase-num">F5</td>
+        <td>La Extracción</td>
+        <td class="v60-action">3 vertidos + drenaje</td>
+        <td>23:00</td>
+        <td><span class="time-badge">5 min</span></td>
+      </tr>
+      <tr>
+        <td class="phase-num">F6</td>
+        <td>El Primer Sorbo · Cata</td>
+        <td class="v60-action">Servir tazas · sellar sobres</td>
+        <td>28:00</td>
+        <td><span class="time-badge">8 min</span></td>
+      </tr>
+      <tr>
+        <td class="phase-num">C</td>
+        <td>Cierre — Brindis y Cartas</td>
+        <td class="v60-action">Entrega de sobres a la novia</td>
+        <td>36:00</td>
+        <td><span class="time-badge">9 min</span></td>
+      </tr>
+      <tr class="total-row">
+        <td colspan="4">TOTAL ESTIMADO — <span style="color:var(--gold)">45 minutos</span></td>
+        <td>+ margen</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── APERTURA ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">APERTURA</span>
+      <span class="fase-title">Bienvenida</span>
+      <span class="fase-time">0:00 · 3 min</span>
+    </div>
+    <div class="fase-body">
+      <p class="section-label">Ambiente</p>
+      <p>Luces cálidas. Velas encendidas. Música instrumental sin letra. Los frascos sobre la mesa, cerrados. La V60 y los materiales visibles pero sin comenzar.</p>
+
+      <p class="section-label">Antes de comenzar</p>
+      <p>Distribuir la Tarjeta de Deseos y un lapicero a cada invitada. Hay tres secciones — las irán completando a lo largo de la noche, en el momento indicado. Al final, sellan su sobre y la novia los recibe.</p>
+
+      <p class="section-label">El narrador lee en voz alta — pausado, mirando al grupo</p>
+      <div class="verso-box">
+        <p>Esta noche no vinimos solamente a tomar café.</p>
+        <p>Vinimos a recordar.<br>
+        A oler memorias.<br>
+        A hablar de las versiones de ella que existieron antes del vestido blanco.</p>
+        <p>La mujer que se enamoró. La amiga. La que lloró.<br>
+        La que dudó. La que volvió a creer.</p>
+        <p>Porque el amor, como el café…<br>
+        nunca sabe igual dos veces.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FASE 1 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">FASE 1</span>
+      <span class="fase-title">El Primer Aroma</span>
+      <span class="fase-time">3:00 · 8 min</span>
+    </div>
+    <div class="fase-body">
+      <p><em>Narrativa: "El inicio"</em> — Los frascos circulan mientras el narrador habla.</p>
+
+      <p class="section-label">Los cuatro frascos — metáforas del amor</p>
+      <div class="frascos-grid">
+        <div class="frasco">
+          <div class="frasco-num">01</div>
+          <div class="frasco-name">Floral · Jazmín / Hibisco</div>
+          <div class="frasco-detail">Pétalos de jazmín seco o flor de hibisco</div>
+          <div class="frasco-metafora">"El inicio. La primera presencia. Lo que aún no tiene nombre."</div>
+        </div>
+        <div class="frasco">
+          <div class="frasco-num">02</div>
+          <div class="frasco-name">Frutal · Frutos Rojos</div>
+          <div class="frasco-detail">Fresas deshidratadas o arándanos secos</div>
+          <div class="frasco-metafora">"La dulzura nueva. El primer impacto. Las mariposas."</div>
+        </div>
+        <div class="frasco">
+          <div class="frasco-num">03</div>
+          <div class="frasco-name">Cacao · Nips</div>
+          <div class="frasco-detail">Nips de cacao o cacao puro sobre algodón</div>
+          <div class="frasco-metafora">"La profundidad. Lo que se asienta. Lo que permanece."</div>
+        </div>
+        <div class="frasco">
+          <div class="frasco-num">04</div>
+          <div class="frasco-name">Especias · Canela y Caña</div>
+          <div class="frasco-detail">Canela en rama + un trozo de panela</div>
+          <div class="frasco-metafora">"El hogar. La calidez de lo construido. Lo cotidiano como ritual."</div>
+        </div>
+      </div>
+
+      <p class="section-label">El narrador dice — mientras los frascos circulan</p>
+      <div class="script-box">
+        Hay aromas que llegan antes que las palabras. Así empiezan casi todas las historias. Primero una presencia. Después una curiosidad. Luego alguien que comienza a quedarse en la mente. El amor rara vez entra haciendo ruido. Casi siempre entra como entra el aroma del café recién molido: lentamente… hasta quedarse en todas partes.
+      </div>
+
+      <div class="escritura-box">
+        <div class="escritura-label">✍ Sección 1 de la tarjeta — escriben en silencio</div>
+        <p>¿Cómo era ella antes de él? Una palabra, una imagen, un momento específico que recuerden de esa versión suya.</p>
+      </div>
+
+      <div class="tip">No confirmar qué hay en los frascos. Mientras escriben, validar con: "Qué interesante asociación" o "El aroma siempre llega antes que las palabras." La tarjeta tiene tres secciones — completarán una por fase.</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>TINTO — Toda historia de amor tiene aroma</span>
+    <span>Despedida de Soltera · Guion de Narración · 45 min</span>
+    <span>@tintocafe25</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PÁGINA 3 · FASES 2, 3 y 4 + PARÁMETROS V60
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="brand">TINTO — DESPEDIDA SENSORIAL</span>
+    <span class="doc-id">Guion de Narración · Pág. 3/5</span>
+  </div>
+
+  <!-- ── FASE 2 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">FASE 2</span>
+      <span class="fase-title">La Molienda</span>
+      <span class="fase-time">11:00 · 4 min</span>
+    </div>
+    <div class="fase-body">
+      <p><em>Narrativa: "Las relaciones también transforman"</em></p>
+      <p>El narrador comienza a moler el café. El sonido y el aroma llenan el espacio. Si el molinillo es manual, pasarlo entre las invitadas.</p>
+
+      <div class="script-box">
+        El grano entero guarda potencial. Pero necesita romperse para liberar aroma. Y eso también pasa con las personas. Amar a alguien cambia la forma en la que existimos. Nos vuelve más suaves en algunos lugares… y más fuertes en otros. A veces el amor nos desordena. Pero también nos revela.
+      </div>
+
+      <div class="escritura-box">
+        <div class="escritura-label">✍ Escriben — entre el moler y el hervir</div>
+        <p>Una cualidad de ella que el amor hizo más brillante. No la que siempre tuvo — la que el amor reveló.</p>
+      </div>
+
+      <div class="tip">El sonido del molino es una pausa sensorial natural. Si es manual, pasarlo entre las invitadas — el tacto y el ritmo son parte del ritual. Deja que el silencio y el aroma hagan trabajo.</div>
+    </div>
+  </div>
+
+  <!-- ── PARÁMETROS V60 ── -->
+  <p class="section-label">Parámetros de preparación — 1 V60 · hasta 6 personas</p>
+  <div class="params-grid">
+    <div class="param">
+      <span class="param-label">Café</span>
+      <span class="param-value">25 g</span>
+    </div>
+    <div class="param">
+      <span class="param-label">Agua</span>
+      <span class="param-value">350 ml</span>
+    </div>
+    <div class="param">
+      <span class="param-label">Relación</span>
+      <span class="param-value">1 : 14</span>
+    </div>
+    <div class="param">
+      <span class="param-label">Temperatura</span>
+      <span class="param-value">92 °C</span>
+    </div>
+    <div class="param">
+      <span class="param-label">Molienda</span>
+      <span class="param-value">Med.–Fina</span>
+    </div>
+    <div class="param">
+      <span class="param-label">Tiempo total</span>
+      <span class="param-value">2:30–3:00</span>
+    </div>
+    <div class="param">
+      <span class="param-label">Rinde</span>
+      <span class="param-value">~300 ml</span>
+    </div>
+    <div class="param">
+      <span class="param-label">Porciones</span>
+      <span class="param-value">5–6 tazas</span>
+    </div>
+  </div>
+  <p class="note-small">Escalado 7–8 personas: 30 g / 420 ml · mismo protocolo · rinde ~360 ml · 6–7 tazas.</p>
+
+  <!-- ── FASE 3 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">FASE 3</span>
+      <span class="fase-title">El Agua · La Paciencia</span>
+      <span class="fase-time">15:00 · 4 min</span>
+    </div>
+    <div class="fase-body">
+      <p><em>Narrativa: "La paciencia"</em></p>
+      <p>El narrador calienta el agua y enjuaga el filtro. El sonido del hervidor es parte del ambiente.</p>
+
+      <div class="script-box">
+        El agua demasiado fría no extrae nada. La demasiado caliente puede arruinarlo todo. Y quizá por eso amar bien también requiere temperatura correcta. Tiempo correcto. Presencia correcta. No todas las personas saben cuidar lo delicado. Pero cuando alguien sí sabe… uno florece.
+      </div>
+
+      <div class="escritura-box">
+        <div class="escritura-label">✍ Sección 2 de la tarjeta — escriben mientras el agua calienta</div>
+        <p>El consejo más honesto que le darías para el amor. Una sola frase. La más verdadera que puedan dar.</p>
+      </div>
+
+      <div class="tip">El hervido al fondo es la banda sonora perfecta para este momento. Deja que el calor del agua y el silencio acompañen la escritura.</div>
+    </div>
+  </div>
+
+  <!-- ── FASE 4 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">FASE 4</span>
+      <span class="fase-title">El Bloom</span>
+      <span class="fase-time">19:00 · 4 min</span>
+    </div>
+    <div class="fase-body">
+      <p><em>Narrativa: "Cuando el amor respira"</em></p>
+
+      <p class="section-label">Secuencia — el narrador ejecuta mientras habla</p>
+      <div class="v60-steps">
+        <span class="v60-time">0:00</span>
+        <span class="v60-desc">Enjuagar el filtro con agua caliente · desechar el agua del servidor · agregar los 25 g de café molido · nivelar suavemente.</span>
+
+        <span class="v60-time">0:20</span>
+        <span class="v60-desc"><strong>Bloom:</strong> verter 50 ml desde el centro hacia afuera, muy lento. El café se expande y libera CO₂. Parar y esperar.</span>
+
+        <span class="v60-time">0:20–0:50</span>
+        <span class="v60-desc"><strong>Reposo 30 segundos →</strong> leer el texto del bloom mientras se observa la expansión.</span>
+      </div>
+
+      <div class="script-box">
+        Antes de servir el café… primero lo dejamos respirar. Porque incluso lo más intenso necesita espacio. Y quizá ese sea uno de los secretos del amor: amar sin ahogar, acompañar sin controlar, quedarse… sin dejar de ser uno mismo.
+      </div>
+
+      <div class="tip">El bloom dura exactamente 30 segundos. Este texto llena ese silencio de forma perfecta. Habla despacio. Pausa. Deja que el café hable también.</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>TINTO — Toda historia de amor tiene aroma</span>
+    <span>Despedida de Soltera · Guion de Narración · 45 min</span>
+    <span>@tintocafe25</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PÁGINA 4 · FASES 5, 6, 7 + CIERRE
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="brand">TINTO — DESPEDIDA SENSORIAL</span>
+    <span class="doc-id">Guion de Narración · Pág. 4/5</span>
+  </div>
+
+  <!-- ── FASE 5 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">FASE 5</span>
+      <span class="fase-title">La Extracción</span>
+      <span class="fase-time">23:00 · 5 min</span>
+    </div>
+    <div class="fase-body">
+      <p><em>Narrativa: "Construir una vida"</em> — Los vertidos ocurren mientras el narrador habla y las invitadas escriben.</p>
+
+      <div class="v60-steps">
+        <span class="v60-time">0:50</span>
+        <span class="v60-desc">1.er vertido en espiral del centro hacia afuera · hasta 150 ml · lento y constante.</span>
+
+        <span class="v60-time">1:20</span>
+        <span class="v60-desc">2.do vertido en espiral · hasta 260 ml · mantener nivel de agua, no dejar que caiga del todo.</span>
+
+        <span class="v60-time">1:50</span>
+        <span class="v60-desc">3.er vertido suave hacia el centro · completar los 350 ml.</span>
+
+        <span class="v60-time">2:30–3:00</span>
+        <span class="v60-desc">Drenaje completo. Retirar el V60. Temperatura de servicio: 65–70 °C.</span>
+      </div>
+
+      <div class="script-box">
+        Una taza no se construye de golpe. Se construye gota a gota. Igual que una relación. Con conversaciones pequeñas. Con rutinas. Con perdones. Con domingos. Con paciencia. Con volver a elegirse incluso en los días normales. Porque el verdadero amor no vive solo en los momentos grandes. Vive también… en lo cotidiano.
+      </div>
+
+      <div class="escritura-box">
+        <div class="escritura-label">✍ Sección 3 de la tarjeta — la última</div>
+        <p>Mientras el café extrae, gota a gota: completan la última sección. <em>"Lo que deseo para ustedes dentro de 10 años."</em> Al terminar, sellan su sobre. No lo abren hasta el cierre.</p>
+      </div>
+
+      <div class="tip">La extracción toma ~2 min y la escritura ~3 min — se superponen perfectamente. Mientras viertes, el texto y el silencio hacen el trabajo emocional. Este es el momento más íntimo de la noche.</div>
+    </div>
+  </div>
+
+  <!-- ── FASE 6 ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">FASE 6</span>
+      <span class="fase-title">El Primer Sorbo · Cata</span>
+      <span class="fase-time">28:00 · 8 min</span>
+    </div>
+    <div class="fase-body">
+      <p><em>Narrativa: "El acto de fe"</em></p>
+      <p>Pedir que sellen sus sobres antes de recibir la taza. Servir primero a la novia. Música muy baja o silencio.</p>
+
+      <div class="script-box">
+        Y llega el momento más vulnerable: probar. Porque nunca sabemos realmente cómo quedó algo hasta que nos permitimos sentirlo. Y amar también es eso. Un acto de fe. Una decisión de abrir el corazón sin garantía absoluta. Pero qué hermosa locura… cuando vale la pena.
+      </div>
+
+      <p class="section-label">Un momento sin palabras</p>
+      <p>Primer sorbo en silencio. Ojos cerrados si quieren. Dejar que el café hable primero.</p>
+
+      <div class="script-box">
+        ¿Qué frasco encontraron en esta taza? ¿Cuál de los cuatro aromas está aquí, escondido entre las notas? Floral como el inicio… frutal como la dulzura… cacao como la profundidad… especias y caña como el hogar que se construye.
+      </div>
+
+      <div class="tip">Con 8 minutos aquí hay espacio para que el grupo hable si quiere. No fuerces. Deja que el café y la emoción de la noche abran la conversación naturalmente.</div>
+    </div>
+  </div>
+
+  <!-- ── CIERRE ── -->
+  <div class="fase">
+    <div class="fase-header">
+      <span class="fase-badge">CIERRE</span>
+      <span class="fase-title">Brindis y Cartas</span>
+      <span class="fase-time">36:00 · 9 min</span>
+    </div>
+    <div class="fase-body">
+      <p>La novia recibe los sobres sellados. Un momento de silencio. Si el grupo quiere, una o dos amigas leen su carta en voz alta. El narrador cierra.</p>
+
+      <div class="verso-box">
+        <p>El café se enfría.<br>
+        Las flores se secan.<br>
+        Las fiestas terminan.</p>
+        <p>Pero hay ciertas noches que permanecen para siempre en la memoria.</p>
+        <p>Y quizá eso es el amor al final: encontrar personas con quienes la vida sabe mejor. Personas que hacen hogar. Personas que convierten lo cotidiano en ritual.</p>
+        <p>Así que esta noche brindamos:<br>
+        por el amor,<br>
+        por la amistad,<br>
+        por las mujeres que sostienen otras mujeres,<br>
+        y por la historia que apenas comienza.</p>
+      </div>
+
+      <div class="script-box" style="margin-top:0.8rem">
+        Y los sobres que escribieron esta noche son tiempo. Son amor destilado. Son el café que se sigue expresando mucho después de que la taza se enfría.
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>TINTO — Toda historia de amor tiene aroma</span>
+    <span>Despedida de Soltera · Guion de Narración · 45 min</span>
+    <span>@tintocafe25</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PÁGINA 5 · CHECKLIST + LOGÍSTICA + FRASES
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="brand">TINTO — DESPEDIDA SENSORIAL</span>
+    <span class="doc-id">Checklist · Logística · Pág. 5/5</span>
+  </div>
+
+  <h2 class="section-title">Checklist de Materiales</h2>
+
+  <div class="checklist-group">
+    <div class="checklist-group-title">Aromas — 4 Frascos</div>
+    <ul class="checklist">
+      <li>4 frascos oscuros numerados (1–4), tapa perforada</li>
+      <li>Frasco 1 — Pétalos de jazmín seco o flor de hibisco</li>
+      <li>Frasco 2 — Fresas deshidratadas o arándanos secos</li>
+      <li>Frasco 3 — Nips de cacao o cacao puro sobre algodón</li>
+      <li>Frasco 4 — Canela en rama + un trozo de panela</li>
+    </ul>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-group-title">Equipamiento V60 — 1 Preparación</div>
+    <ul class="checklist">
+      <li>V60 (×1) + filtros de papel (×3 extra)</li>
+      <li>Servidor / jarra de decantación</li>
+      <li>Báscula de precisión (0,1 g)</li>
+      <li>Hervidor con control de temperatura (92 °C)</li>
+      <li>Molinillo manual (ritual en vivo) o café pre-molido en bolsa sellada</li>
+      <li>Cronómetro visible</li>
+      <li>25 g de café specialty seleccionado para el evento</li>
+    </ul>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-group-title">Servicio y Experiencia</div>
+    <ul class="checklist">
+      <li>5–6 tazas de cata (vidrio o cerámica clara)</li>
+      <li>Cucharitas (×6)</li>
+      <li>Tarjetas de Deseos impresas (1 por invitada) + lapiceros</li>
+      <li>Sobres para guardar las tarjetas (1 por invitada)</li>
+      <li>Azúcar / panela — aparte, no en la mesa principal</li>
+    </ul>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-group-title">Ambiente y Escenografía</div>
+    <ul class="checklist">
+      <li>Velas (3–5 · sin fragancia fuerte para no competir con los aromas)</li>
+      <li>Lista de música instrumental preparada (sin letra · sin anuncios)</li>
+      <li>Flores o decoración mínima acorde al concepto</li>
+      <li>Toallas de tela limpias (×2) · cubeta de descarte · papel de cocina</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title" style="margin-top: 1.1rem">Recomendaciones Logísticas</h2>
+
+  <div class="logistica-grid">
+    <div class="log-item">
+      <strong>Mise en place</strong>
+      Todo listo 30 min antes. Café pesado, agua en termo, frascos rotulados y cerrados, tarjetas apiladas, sobres listos.
+    </div>
+    <div class="log-item">
+      <strong>Molinillo en vivo</strong>
+      Si es manual, pasar entre las invitadas durante F2. El sonido y el tacto refuerzan el ritual. Si no es posible, moler minutos antes y cerrar en bolsa hermética.
+    </div>
+    <div class="log-item">
+      <strong>Timing de las tarjetas</strong>
+      Dar las Tarjetas de Deseos en la Apertura (con un lapicero). Sección 1 durante F1 · Sección 2 durante F3 · Sección 3 durante F5. Sellar el sobre en F6 antes del primer sorbo.
+    </div>
+    <div class="log-item">
+      <strong>La novia primero</strong>
+      Servir la taza a la novia antes que a las demás. Gesto pequeño, impacto emocional grande.
+    </div>
+    <div class="log-item">
+      <strong>Temperatura de servicio</strong>
+      No dejar bajar de 55 °C. Servir inmediatamente después del drenaje completo del V60.
+    </div>
+    <div class="log-item">
+      <strong>El silencio es válido</strong>
+      No llenar cada pausa con palabras. Los silencios durante el bloom y el primer sorbo son parte del ritual — sosténlos.
+    </div>
+  </div>
+
+  <h2 class="section-title" style="margin-top: 1.1rem">Frases para Intercalar</h2>
+  <p class="note-small">Úsalas entre fases o cuando necesitas una transición. Léelas en voz baja, como al margen.</p>
+
+  <div class="frases-grid">
+    <div class="frase-item">"El aroma siempre llega antes que el recuerdo."</div>
+    <div class="frase-item">"Nadie ama igual después de ser amado correctamente."</div>
+    <div class="frase-item">"Las mejores historias toman tiempo en extraerse."</div>
+    <div class="frase-item">"El amor también tiene notas dulces, ácidas y amargas."</div>
+    <div class="frase-item">"Toda relación tiene cuerpo, textura y temperatura."</div>
+    <div class="frase-item">"Hay personas que se sienten como café caliente en un día frío."</div>
+    <div class="frase-item">"El amor verdadero no siempre hace ruido; a veces solo da paz."</div>
+    <div class="frase-item">"El tiempo correcto. La temperatura correcta. La persona correcta."</div>
+  </div>
+
+  <div class="page-footer">
+    <span>TINTO — Toda historia de amor tiene aroma</span>
+    <span>Despedida de Soltera · Guion de Narración · 45 min</span>
+    <span>@tintocafe25</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     TARJETAS DE DESEOS — 2 por hoja A4 (solo impresión)
+══════════════════════════════════════════════ -->
+<div class="tarjetas-page">
+
+  <!-- TARJETA 1 -->
+  <div class="t-half">
+    <div class="t-header">
+      <span class="t-brand">TINTO</span>
+      <span class="t-event-label">Despedida de Soltera<br>Tarjeta de Deseos</span>
+    </div>
+
+    <div class="t-from-row">
+      <div class="t-from-field">
+        <span class="t-from-label">De:</span>
+        <div class="t-from-line"></div>
+      </div>
+      <div class="t-from-field">
+        <span class="t-from-label">Para:</span>
+        <div class="t-from-line"></div>
+      </div>
+    </div>
+
+    <div class="t-divider">· ✦ ·</div>
+
+    <div class="t-section">
+      <div class="t-section-label">Cuando el amor llegó, la vi…</div>
+      <div class="t-write-line sm"></div>
+      <div class="t-write-line sm"></div>
+      <div class="t-write-line sm"></div>
+    </div>
+
+    <div class="t-section">
+      <div class="t-section-label">Un consejo para su historia:</div>
+      <div class="t-write-line sm"></div>
+      <div class="t-write-line sm"></div>
+    </div>
+
+    <div class="t-section">
+      <div class="t-section-label">Lo que deseo para ustedes en 10 años:</div>
+      <div class="t-write-line"></div>
+      <div class="t-write-line"></div>
+      <div class="t-write-line"></div>
+      <div class="t-write-line"></div>
+    </div>
+
+    <div class="t-quote">
+      "El amor también tiene notas dulces, ácidas y amargas —<br>y todas son necesarias."
+    </div>
+
+    <div class="t-footer">
+      <span>TINTO — Toda historia de amor tiene aroma</span>
+      <span>@tintocafe25</span>
+    </div>
+  </div>
+
+  <!-- TARJETA 2 -->
+  <div class="t-half">
+    <div class="t-header">
+      <span class="t-brand">TINTO</span>
+      <span class="t-event-label">Despedida de Soltera<br>Tarjeta de Deseos</span>
+    </div>
+
+    <div class="t-from-row">
+      <div class="t-from-field">
+        <span class="t-from-label">De:</span>
+        <div class="t-from-line"></div>
+      </div>
+      <div class="t-from-field">
+        <span class="t-from-label">Para:</span>
+        <div class="t-from-line"></div>
+      </div>
+    </div>
+
+    <div class="t-divider">· ✦ ·</div>
+
+    <div class="t-section">
+      <div class="t-section-label">Cuando el amor llegó, la vi…</div>
+      <div class="t-write-line sm"></div>
+      <div class="t-write-line sm"></div>
+      <div class="t-write-line sm"></div>
+    </div>
+
+    <div class="t-section">
+      <div class="t-section-label">Un consejo para su historia:</div>
+      <div class="t-write-line sm"></div>
+      <div class="t-write-line sm"></div>
+    </div>
+
+    <div class="t-section">
+      <div class="t-section-label">Lo que deseo para ustedes en 10 años:</div>
+      <div class="t-write-line"></div>
+      <div class="t-write-line"></div>
+      <div class="t-write-line"></div>
+      <div class="t-write-line"></div>
+    </div>
+
+    <div class="t-quote">
+      "El amor también tiene notas dulces, ácidas y amargas —<br>y todas son necesarias."
+    </div>
+
+    <div class="t-footer">
+      <span>TINTO — Toda historia de amor tiene aroma</span>
+      <span>@tintocafe25</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

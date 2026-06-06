@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TINTO — Cotización de Servicios</title>
+  <style>
+    /* ── Tokens de marca TINTO ── */
+    :root {
+      --ink:      #1a2e24;
+      --espresso: #2B463C;
+      --brown:    #688F4E;
+      --cream:    #F4F1E9;
+      --cream2:   #e8ebdf;
+      --cream3:   #d4dbc8;
+      --gold:     #B1D182;
+      --rose:     #b07a91;
+      --rose-bg:  #f8f0f4;
+      --white:    #ffffff;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #d4d0c4;
+      color: var(--ink);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 11pt;
+      line-height: 1.65;
+      padding: 2rem 1rem;
+    }
+
+    @media print {
+      body { background: white; padding: 0; font-size: 10pt; }
+      .no-print { display: none !important; }
+      .cotizacion-page {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        padding: 14mm 16mm !important;
+      }
+      @page { size: A4; margin: 0; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    /* ── Contenedor principal ── */
+    .cotizacion-page {
+      max-width: 980px;
+      margin: 0 auto;
+      background: var(--cream);
+      box-shadow: 0 4px 28px rgba(26,46,36,0.13), 0 1px 4px rgba(26,46,36,0.06);
+      border-radius: 6px;
+      padding: 3rem 4rem 2.5rem;
+    }
+
+    /* ── Encabezado ── */
+    .cot-header {
+      text-align: center;
+      margin-bottom: 2.2rem;
+    }
+
+    .cot-logo {
+      font-family: 'Georgia', serif;
+      font-size: 44pt;
+      font-weight: bold;
+      letter-spacing: 0.18em;
+      color: var(--espresso);
+      line-height: 1;
+      border-bottom: 3px solid var(--brown);
+      padding-bottom: 0.3rem;
+      display: inline-block;
+    }
+
+    .cot-tagline {
+      font-size: 9.5pt;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--brown);
+      margin-top: 0.5rem;
+    }
+
+    .cot-divider {
+      width: 60mm;
+      height: 2px;
+      background: var(--gold);
+      margin: 1.2rem auto;
+      opacity: 0.7;
+    }
+
+    .cot-title {
+      font-size: 18pt;
+      font-weight: bold;
+      color: var(--espresso);
+      margin-bottom: 0.3rem;
+    }
+
+    .cot-date {
+      font-size: 9pt;
+      color: #888;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* ── Grilla de servicios ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.3rem;
+      margin: 2rem 0;
+    }
+
+    @media (max-width: 860px) {
+      .services-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .cotizacion-page { padding: 2rem 1.5rem; }
+    }
+
+    @media print {
+      .services-grid { grid-template-columns: 1fr !important; }
+    }
+
+    /* ── Tarjeta de servicio (oscura — Experiencia) ── */
+    .service-card {
+      background: var(--espresso);
+      color: var(--cream);
+      border-radius: 8px;
+      padding: 1.7rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    /* ── Tarjeta de servicio (clara — Despedida) ── */
+    .service-card.light {
+      background: var(--cream);
+      color: var(--ink);
+      border: 2px solid var(--espresso);
+    }
+
+    /* ── Tarjeta de servicio (rosa — Círculo) ── */
+    .service-card.sororidad {
+      background: var(--rose-bg);
+      color: var(--ink);
+      border: 2px solid var(--rose);
+    }
+
+    /* ── Tipo de formato ── */
+    .service-type {
+      font-size: 7.5pt;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: 'Arial', sans-serif;
+    }
+
+    .service-card.light .service-type { color: var(--rose); }
+    .service-card.sororidad .service-type { color: var(--rose); }
+
+    /* ── Nombre del servicio ── */
+    .service-name {
+      font-size: 13.5pt;
+      font-weight: bold;
+      color: var(--white);
+      line-height: 1.2;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid rgba(177,209,130,0.25);
+    }
+
+    .service-card.light .service-name {
+      color: var(--espresso);
+      border-bottom-color: var(--cream3);
+    }
+
+    .service-card.sororidad .service-name {
+      color: var(--espresso);
+      border-bottom-color: rgba(176,122,145,0.3);
+    }
+
+    /* ── Tagline ── */
+    .service-tagline {
+      font-size: 9.5pt;
+      font-style: italic;
+      color: rgba(244,241,233,0.75);
+      line-height: 1.5;
+    }
+
+    .service-card.light .service-tagline { color: var(--rose); }
+    .service-card.sororidad .service-tagline { color: var(--rose); }
+
+    /* ── Descripción ── */
+    .service-desc {
+      font-size: 9.5pt;
+      color: rgba(244,241,233,0.88);
+      line-height: 1.65;
+    }
+
+    .service-card.light .service-desc { color: #444; }
+    .service-card.sororidad .service-desc { color: #444; }
+
+    /* ── Incluye ── */
+    .includes-label {
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      font-family: 'Arial', sans-serif;
+      margin-bottom: 0.4rem;
+    }
+
+    .service-card.light .includes-label { color: var(--brown); }
+    .service-card.sororidad .includes-label { color: var(--rose); }
+
+    .includes-list {
+      list-style: none;
+      padding: 0;
+      font-size: 9.5pt;
+    }
+
+    .includes-list li {
+      padding: 0.2rem 0 0.2rem 1.2rem;
+      position: relative;
+      color: rgba(244,241,233,0.84);
+    }
+
+    .includes-list li::before {
+      content: '✦';
+      color: var(--gold);
+      position: absolute;
+      left: 0;
+      font-size: 7pt;
+      top: 0.38rem;
+    }
+
+    .service-card.light .includes-list li { color: #444; }
+    .service-card.light .includes-list li::before { color: var(--rose); }
+    .service-card.sororidad .includes-list li { color: #444; }
+    .service-card.sororidad .includes-list li::before { color: var(--rose); }
+
+    /* ── Especificaciones ── */
+    .service-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 1rem;
+      font-size: 9pt;
+      padding-top: 0.7rem;
+      border-top: 1px solid rgba(177,209,130,0.2);
+    }
+
+    .service-card.light .service-specs { border-top-color: var(--cream3); }
+    .service-card.sororidad .service-specs { border-top-color: rgba(176,122,145,0.25); }
+
+    .spec-label {
+      color: var(--gold);
+      font-size: 7.5pt;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: 'Arial', sans-serif;
+      display: block;
+    }
+
+    .service-card.light .spec-label { color: var(--brown); }
+    .service-card.sororidad .spec-label { color: var(--rose); }
+
+    .spec-value {
+      color: var(--white);
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+    }
+
+    .service-card.light .spec-value { color: var(--espresso); }
+    .service-card.sororidad .spec-value { color: var(--espresso); }
+
+    /* ── Precio ── */
+    .price-row {
+      margin-top: auto;
+      padding-top: 0.9rem;
+      border-top: 1px solid rgba(177,209,130,0.25);
+      display: flex;
+      align-items: flex-end;
+      gap: 0.7rem;
+    }
+
+    .service-card.light .price-row { border-top-color: var(--cream3); }
+    .service-card.sororidad .price-row { border-top-color: rgba(176,122,145,0.3); }
+
+    .price-amount {
+      font-family: 'Arial', sans-serif;
+      font-size: 22pt;
+      font-weight: bold;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .service-card.light .price-amount { color: var(--espresso); }
+    .service-card.sororidad .price-amount { color: var(--rose); }
+
+    .price-label {
+      font-size: 8.5pt;
+      color: rgba(244,241,233,0.6);
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    .service-card.light .price-label { color: #888; }
+    .service-card.sororidad .price-label { color: #999; }
+
+    /* ── Nota informativa ── */
+    .cot-notes {
+      background: var(--cream2);
+      border-left: 3px solid var(--brown);
+      border-radius: 0 5px 5px 0;
+      padding: 0.85rem 1.2rem;
+      font-size: 9.5pt;
+      color: var(--espresso);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+    }
+
+    .cot-notes strong {
+      color: var(--brown);
+      font-family: 'Arial', sans-serif;
+      font-size: 8.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    /* ── Contacto ── */
+    .cot-contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 500px) {
+      .cot-contact { grid-template-columns: 1fr; }
+    }
+
+    .contact-item {
+      background: var(--espresso);
+      color: var(--cream);
+      border-radius: 5px;
+      padding: 0.7rem 1rem;
+      font-size: 9.5pt;
+    }
+
+    .contact-item strong {
+      display: block;
+      color: var(--gold);
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-family: 'Arial', sans-serif;
+      margin-bottom: 0.25rem;
+    }
+
+    /* ── Pie de página ── */
+    .cot-footer {
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--cream3);
+      display: flex;
+      justify-content: space-between;
+      font-size: 8pt;
+      color: #aaa;
+      letter-spacing: 0.08em;
+      font-family: 'Arial', sans-serif;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    /* ── Botón imprimir ── */
+    .no-print {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .no-print button {
+      background: var(--espresso);
+      color: var(--gold);
+      border: none;
+      padding: 0.6rem 1.8rem;
+      font-size: 10.5pt;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .no-print button:hover { background: var(--ink); }
+    .no-print small {
+      display: block;
+      color: #888;
+      font-size: 8.5pt;
+      margin-top: 0.4rem;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  function printCotizacion() { window.print(); }
+</script>
+
+<!-- ── BOTÓN IMPRIMIR ── -->
+<div class="no-print">
+  <button onclick="printCotizacion()">🖨 Imprimir Cotización</button>
+  <small>Una página · formato A4</small>
+</div>
+
+<div class="cotizacion-page">
+
+  <!-- ── ENCABEZADO ── -->
+  <div class="cot-header">
+    <div class="cot-logo">TINTO</div>
+    <div class="cot-tagline">Tradición y Especialidad</div>
+    <div class="cot-divider"></div>
+    <div class="cot-title">Cotización de Servicios</div>
+    <div class="cot-date">Experiencias de Café &middot; Junio 2026</div>
+  </div>
+
+  <!-- ── SERVICIOS ── -->
+  <div class="services-grid">
+
+    <!-- Tarjeta 1: Experiencia Sensorial -->
+    <div class="service-card">
+      <div>
+        <div class="service-type">Formato Grupal</div>
+        <div class="service-name">Experiencia Sensorial de Café</div>
+      </div>
+      <div class="service-tagline">"Sentir el café como nunca antes"</div>
+      <p class="service-desc">
+        Una experiencia educativa y sensorial para grupos de hasta 8 personas. El facilitador conduce al grupo por 6 aromas calibrados al perfil de taza, explica el origen y proceso del grano, realiza la ceremonia de preparación (V60 y Prensa Francesa) y guía la cata con vocabulario sensorial. Cierra con la revelación del perfil y material de marca.
+      </p>
+      <div>
+        <div class="includes-label">Incluye</div>
+        <ul class="includes-list">
+          <li>6 frascos aromáticos calibrados al perfil de taza</li>
+          <li>Café de especialidad seleccionado para el evento</li>
+          <li>Ceremonia de preparación V60 y Prensa Francesa</li>
+          <li>Fichas de experiencia y degustación</li>
+        </ul>
+      </div>
+      <div class="service-specs">
+        <div>
+          <span class="spec-label">Duración</span>
+          <span class="spec-value">45–60 min</span>
+        </div>
+        <div>
+          <span class="spec-label">Participantes</span>
+          <span class="spec-value">hasta 8</span>
+        </div>
+        <div>
+          <span class="spec-label">Método</span>
+          <span class="spec-value">V60 + Prensa Francesa</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="price-amount">$80.000</div>
+        <div class="price-label">ARS<br>por evento</div>
+      </div>
+    </div>
+
+    <!-- Tarjeta 2: Despedida de Soltera -->
+    <div class="service-card light">
+      <div>
+        <div class="service-type">Formato Íntimo</div>
+        <div class="service-name">Despedida de Soltera Sensorial</div>
+      </div>
+      <div class="service-tagline">"Toda historia de amor tiene aroma"</div>
+      <p class="service-desc">
+        Una experiencia poética y ceremonial para grupos íntimas. La barista actúa como narradora: cuenta la historia del café y, en cada paso de la preparación V60, evoca poéticamente el amor — convirtiendo cada paso en una metáfora viva. Cada invitada completa una Tarjeta de Deseos en tres actos a lo largo de la actividad. Cierre con lectura de cartas.
+      </p>
+      <div>
+        <div class="includes-label">Incluye</div>
+        <ul class="includes-list">
+          <li>4 frascos aromáticos</li>
+          <li>Café de especialidad seleccionado para la actividad</li>
+          <li>Preparación V60 en vivo</li>
+          <li>Tarjetas para la actividad impresas</li>
+          <li>Estructura de la actividad y ambientación sonora</li>
+        </ul>
+      </div>
+      <div class="service-specs">
+        <div>
+          <span class="spec-label">Duración</span>
+          <span class="spec-value">45 min</span>
+        </div>
+        <div>
+          <span class="spec-label">Participantes</span>
+          <span class="spec-value">4–8 personas</span>
+        </div>
+        <div>
+          <span class="spec-label">Método</span>
+          <span class="spec-value">V60 en vivo</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="price-amount">$80.000</div>
+        <div class="price-label">ARS<br>por evento</div>
+      </div>
+    </div>
+
+    <!-- Tarjeta 3: Círculo de Amigas -->
+    <div class="service-card sororidad">
+      <div>
+        <div class="service-type">Formato Sororidad</div>
+        <div class="service-name">Círculo de Amigas</div>
+      </div>
+      <div class="service-tagline">"Porque las mejores conversaciones saben a café"</div>
+      <p class="service-desc">
+        Una cata compartida centrada en el vínculo entre amigas. Cuatro aromas que son cuatro palabras — ternura, valentía, raíz, luz. La barista facilita mientras el café abre la conversación. Las tarjetas guía dan estructura sin rigidez.
+      </p>
+      <div>
+        <div class="includes-label">Incluye</div>
+        <ul class="includes-list">
+          <li>4 frascos aromáticos con palabras del vínculo</li>
+          <li>Café de especialidad seleccionado para la actividad</li>
+          <li>Preparación V60 en vivo con narración</li>
+          <li>Tarjetas guía para conectar (1 por invitada)</li>
+          <li>Estructura de la actividad y ambientación sonora</li>
+        </ul>
+      </div>
+      <div class="service-specs">
+        <div>
+          <span class="spec-label">Duración</span>
+          <span class="spec-value">50 min</span>
+        </div>
+        <div>
+          <span class="spec-label">Participantes</span>
+          <span class="spec-value">4–8 personas</span>
+        </div>
+        <div>
+          <span class="spec-label">Método</span>
+          <span class="spec-value">V60 en vivo</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="price-amount">$80.000</div>
+        <div class="price-label">ARS<br>por evento</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── CONTACTO ── -->
+  <div class="cot-contact">
+    <div class="contact-item">
+      <strong>Correo electrónico</strong>
+      tintocafe25@gmail.com
+    </div>
+    <div class="contact-item">
+      <strong>Instagram · WhatsApp</strong>
+      @tintocafe25 &nbsp;·&nbsp; +54 9 11 2399 8913
+    </div>
+  </div>
+
+  <!-- ── PIE ── -->
+  <div class="cot-footer">
+    <span>TINTO &mdash; Tradición y Especialidad</span>
+    <span>Colombia &middot; Especialidad &middot; Experiencias de Café</span>
+    <span>@tintocafe25</span>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -22,6 +22,22 @@
   --mist: rgba(43, 70, 60, 0.06);
   --gold: #B1D182;
   --gold2: #B1D182;
+
+  /* ── Profile colorway (overridden at runtime by app.js) ── */
+  --accent:      #688F4E;
+  --accent-soft: rgba(104, 143, 78, 0.25);
+  --accent-glow: #B1D182;
+  --accent-ink:  #2B463C;
+}
+
+/* Smooth color transitions when switching profiles */
+.s4-bar-fill,
+.s4-score-num,
+.s3-chip.primary,
+.s4-bar-fill::after {
+  transition-property: transform, background, background-color, color, box-shadow, border-color;
+  transition-duration: 0.55s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html,
@@ -544,9 +560,9 @@ body::after {
   border-color: var(--gold);
 }
 .s3-chip.primary {
-  color: var(--espresso);
-  background: var(--gold);
-  border-color: var(--gold);
+  color: var(--accent-ink);
+  background: var(--accent-glow);
+  border-color: var(--accent-glow);
   font-weight: 400;
 }
 
@@ -600,7 +616,7 @@ body::after {
   transition: color 0.6s;
 }
 .s4-score-num.counting {
-  color: var(--caramel);
+  color: var(--accent);
 }
 
 .s4-score-unit {
@@ -661,7 +677,7 @@ body::after {
 }
 .s4-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--brown), var(--caramel));
+  background: linear-gradient(90deg, var(--accent), var(--accent-glow));
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -675,8 +691,8 @@ body::after {
   width: 4px;
   height: 5px;
   border-radius: 50%;
-  background: var(--caramel);
-  box-shadow: 0 0 6px rgba(104, 143, 78, 0.6);
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-soft);
   opacity: 0;
   transition: opacity 0.3s 1.2s;
 }
@@ -1545,5 +1561,107 @@ body::after {
   #qrHolder canvas {
     width: 96px !important;
     height: 96px !important;
+  }
+}
+
+/* ═══════════════════════════════════
+   Profile switcher (top-left)
+   ═══════════════════════════════════ */
+.profile-switch {
+  position: fixed;
+  top: 14px;
+  left: 16px;
+  z-index: 300;
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid rgba(177, 209, 130, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(43, 70, 60, 0.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  padding-bottom: 0;
+}
+
+.profile-opt {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: rgba(244, 241, 233, 0.5);
+  padding: 7px 14px 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font: inherit;
+  position: relative;
+  min-width: 106px;
+  text-align: center;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+.profile-opt + .profile-opt {
+  border-left: 1px solid rgba(177, 209, 130, 0.18);
+}
+.profile-opt:hover {
+  color: var(--cream);
+}
+.profile-opt.active {
+  color: var(--cream);
+  background: rgba(0, 0, 0, 0.15);
+}
+.profile-opt.active::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 2px;
+  height: 2px;
+  background: var(--accent-glow);
+  border-radius: 2px;
+  transition: background 0.4s ease;
+}
+
+/* ── Caficultor sub-line (finca) ── */
+.s2-caf-sub {
+  margin-top: 6px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brown);
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+/* Responsive: profile switch on small screens */
+@media (max-width: 600px) {
+  .profile-switch {
+    top: 10px;
+    left: 12px;
+    font-size: 9px;
+  }
+  .profile-opt {
+    min-width: 88px;
+    padding: 6px 10px 7px;
+    letter-spacing: 0.1em;
+  }
+  .s2-caf-sub {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+}
+
+@media (max-height: 450px) and (orientation: landscape) {
+  .profile-switch {
+    top: 6px;
+    left: 12px;
+    font-size: 9px;
+  }
+  .profile-opt {
+    min-width: 86px;
+    padding: 5px 9px 6px;
   }
 }
